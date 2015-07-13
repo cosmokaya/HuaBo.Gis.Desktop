@@ -27,7 +27,7 @@ namespace HuaBo.Gis.Desktop
         public Workspace Workspace { get; set; }
         public Output Output { get; set; }
         public WorkspaceTreeNodeBase SelectNode { get; set; }
-        public IForm ActiveForm { get; set; }
+        //public IForm ActiveForm { get; set; }
         public Dictionary<string, PopupMenu> PopupMenus { get; set; }
 
 

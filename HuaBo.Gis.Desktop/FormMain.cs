@@ -74,7 +74,6 @@ namespace HuaBo.Gis.Desktop
         {
             if (DocumentManager.View.ActiveDocument == null)
             {
-                GisApp.ActiveApp.ActiveForm = null;
                 RibbonView.PageCategories.Clear();
             }
         }
@@ -87,7 +86,6 @@ namespace HuaBo.Gis.Desktop
 
         void View_DocumentActivated(object sender, DevExpress.XtraBars.Docking2010.Views.DocumentEventArgs e)
         {
-            GisApp.ActiveApp.ActiveForm = e.Document.Form as IForm;
             RibbonPageCategory category = e.Document.Form.Tag as RibbonPageCategory;
             RibbonView.PageCategories.Add(category);
             if (category.Tag != null)

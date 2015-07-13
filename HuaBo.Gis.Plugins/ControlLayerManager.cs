@@ -42,7 +42,11 @@ namespace HuaBo.Gis.Plugins
         {
             if (this.Visible)
             {
-                IForm form = GisApp.ActiveApp.ActiveForm as IForm;
+                IForm form=null;
+                if(GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument!=null)
+                {
+                    form=GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument.Form as IForm;
+                }
                 this.Controls.Clear();
                 if (form == null) return;
                 if (form is IFormScene)
