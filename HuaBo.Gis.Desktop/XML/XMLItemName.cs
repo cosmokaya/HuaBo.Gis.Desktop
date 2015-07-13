@@ -6,30 +6,25 @@ using System.Threading.Tasks;
 
 namespace HuaBo.Gis.Desktop.XML
 {
-    /// <summary>
-    /// 其实完全可以根据接口转换来确定是啥类型
-    /// </summary>
     public class XMLItemName
     {
         //普通的Item
-        public const string Button = "button";
+        public static string Button = "button";
         //有下拉菜单的
-        public const string ButtonDropDown = "dropdown";
+        public static string ButtonDropDown = "dropdown";
         //有下拉菜单的,但是只用来显示下拉菜单，不能自己点击
-        public const string ButtonDropDownAct = "dropdownact";
+        public static string ButtonDropDownAct = "dropdownact";
         //有下拉菜单的,但是只用来显示下拉菜单，不能自己点击
-        public const string ButtonCheckDropDown = "checkdropdown";
+        public static string ButtonCheckDropDown = "checkdropdown";
         //CheckItem
-        public const string Check = "check";
+        public static string Check = "check";
         //ToggleSwtichItem
-        public const string ToggleSwtich = "toggle";
-        public const string StaticText = "static";
-        public const string ListItem = "list";
-        public const string RibbonGallery = "gallery";
-        public const string ButtonGroup = "btngroup";
-        public const string SkinRibbonGallery = "skin";
-        //
-        public const string ComboBoxEdit = "comboedit";
-        public const string TextEdit = "textedit";
+        public static string ToggleSwtich = "toggle";
+        public static string StaticText = "static";
+        public static string EditItem = "edit";
+        public static string ListItem = "list";
+        public static string RibbonGallery = "gallery";
+        public static string ButtonGroup = "btngroup";
+        public static string SkinRibbonGallery = "skin";
     }
 }

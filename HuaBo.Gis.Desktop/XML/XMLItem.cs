@@ -8,8 +8,6 @@ using System.Xml;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.Helpers;
 using DevExpress.XtraBars.Ribbon;
-using DevExpress.XtraEditors.Controls;
-using DevExpress.XtraEditors.Repository;
 using HuaBo.Gis.Interfaces;
 
 namespace HuaBo.Gis.Desktop.XML
@@ -114,14 +112,10 @@ namespace HuaBo.Gis.Desktop.XML
                 if (ctrlAction != null)
                 {
                     ctrlAction.BarItem = result;
-                    if ((result as BarEditItem) != null)
+                    result.ItemClick += (m, n) =>
                     {
-                        (result as BarEditItem).EditValueChanged += (m, n) => { ctrlAction.Run(); };
-                    }
-                    else
-                    {
-                        result.ItemClick += (m, n) => { ctrlAction.Run(); };
-                    }
+                        ctrlAction.Run();
+                    };
                 }
                 result.Tag = ctrlAction;
 
@@ -134,8 +128,8 @@ namespace HuaBo.Gis.Desktop.XML
                 {
                 }
 
-                #region 不同类型按钮的处理,此处应该考虑下
-                //5.根据xmlItem.ItemName 来判断类型     
+                #region 不同类型按钮的处理
+                //5.根据xmlItem.ItemName 来判断类型                
                 if (xmlItem.ItemName == XMLItemName.Button)
                 {
                     if (xmlItem.ItemChecked != "")
@@ -145,6 +139,8 @@ namespace HuaBo.Gis.Desktop.XML
                         if (xmlItem.ItemChecked == "true")
                         {
                             barButtonItem.Down = true;
+                            //if (ctrlAction != null)
+                            //    ctrlAction.Run();
                         }
                         else
                             barButtonItem.Down = false;
@@ -177,24 +173,6 @@ namespace HuaBo.Gis.Desktop.XML
                 {
                     SkinRibbonGalleryBarItem item = result as SkinRibbonGalleryBarItem;
                     SkinHelper.InitSkinGallery(item);
-                }
-                else if (xmlItem.ItemName == XMLItemName.ComboBoxEdit)
-                {
-                    BarEditItem item = result as BarEditItem;
-                    RepositoryItemComboBox repository = new RepositoryItemComboBox();
-                    //测试
-                    repository.Items.AddRange(new object[] { "cccc", "eeee" });
-                    repository.TextEditStyle = TextEditStyles.DisableTextEditor;
-                    item.Edit = repository;
-                    item.EditValue = repository.Items[0].ToString();
-                    item.Width = 100;
-
-                }
-                else if (xmlItem.ItemName == XMLItemName.TextEdit)
-                {
-                    BarEditItem item = result as BarEditItem;
-                    RepositoryItemTextEdit repository = new RepositoryItemTextEdit();
-                    item.Edit = repository;
                 }
                 #endregion
             }
