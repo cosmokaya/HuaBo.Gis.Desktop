@@ -97,9 +97,10 @@ namespace HuaBo.Gis.Desktop.XML
         /// <param name="ctrlAction"></param>
         /// <param name="itemlinks">包含BarItem的父类</param>
         /// <returns></returns>
-        public static BarItem GetBarItem(XMLItem xmlItem, CtrlAction ctrlAction, BarItemLinkCollection itemlinks)
+        public static BarItem CreateBarItem(XmlNode itemNode, RibbonControl ribbon, BarItemLinkCollection itemlinks, Dictionary<string, CtrlAction> ctrlActions)
         {
             System.Reflection.Assembly asmb = System.Reflection.Assembly.LoadFrom(@"./DevExpress.XtraBars.v14.1.dll");
+            XMLItem xmlItem = XMLItem.GetXMLItem(itemNode);
             Type t = asmb.GetType(xmlItem.ItemItemType);
             BarItem result = Activator.CreateInstance(t) as BarItem;
 
@@ -111,6 +112,7 @@ namespace HuaBo.Gis.Desktop.XML
                 result.Caption = xmlItem.ItemText;
                 result.Visibility = xmlItem.ItemVisible != "false" ? BarItemVisibility.Always : BarItemVisibility.Never;
                 result.RibbonStyle = xmlItem.ItemRibbonStyle == "large" ? RibbonItemStyles.Large : RibbonItemStyles.Default;
+                CtrlAction ctrlAction = ctrlActions.ContainsKey(xmlItem.ItemBindClass) ? ctrlActions[xmlItem.ItemBindClass] : null;
                 if (ctrlAction != null)
                 {
                     ctrlAction.BarItem = result;
@@ -123,7 +125,6 @@ namespace HuaBo.Gis.Desktop.XML
                         result.ItemClick += (m, n) => { ctrlAction.Run(); };
                     }
                 }
-                result.Tag = ctrlAction;
 
                 try
                 {
@@ -133,69 +134,80 @@ namespace HuaBo.Gis.Desktop.XML
                 catch (Exception)
                 {
                 }
+                switch (xmlItem.ItemName)
+                {
+                    case XMLItemName.Button://普通button,但是带checked属性
+                        if (xmlItem.ItemChecked != "")
+                        {
+                            (result as BarButtonItem).ButtonStyle = BarButtonStyle.Check;
+                            if (xmlItem.ItemChecked == "true")
+                            {
+                                (result as BarButtonItem).Down = true;
+                            }
+                            else
+                                (result as BarButtonItem).Down = false;
+                        }
+                        break;
+                    case XMLItemName.ButtonCheckDropDown://判断如果有子菜单的情况 XMLItemName.ButtonCheckDropDown,暂时用不到，等换了新版本再说
+                        break;
+                    case XMLItemName.ButtonDropDown:
+                        (result as BarButtonItem).ButtonStyle = BarButtonStyle.DropDown;
+                        PopupMenu popup = new PopupMenu();
+                        popup.Ribbon = ribbon;
+                        ((result as BarButtonItem)).DropDownControl = popup;
+
+                        foreach (XmlNode dropItemNode in itemNode.ChildNodes)
+                        {
+                            XMLItem xmlDropItem = XMLItem.GetXMLItem(dropItemNode);
+                            if (ctrlActions.Keys.Contains(xmlDropItem.ItemBindClass))
+                            {
+                                ctrlAction = ctrlActions[xmlDropItem.ItemBindClass];
+                            }
+                            BarItem barDropItem = XMLItem.CreateBarItem(dropItemNode, ribbon, popup.ItemLinks, ctrlActions);
+                        }
+                        break;
+                    case XMLItemName.ButtonDropDownAct:
+                        (result as BarButtonItem).ButtonStyle = BarButtonStyle.DropDown;
+                        (result as BarButtonItem).ActAsDropDown = true;
+                        break;
+                    case XMLItemName.ButtonGroup:
+                        break;
+                    case XMLItemName.Check:
+                        if (xmlItem.ItemChecked != "")
+                        {
+                            (result as BarCheckItem).CheckBoxVisibility = CheckBoxVisibility.BeforeText;
+                        }
+                        break;
+                    case XMLItemName.ComboBoxEdit:
+                        BarEditItem comboBoxEdit = result as BarEditItem;
+                        RepositoryItemComboBox repository = new RepositoryItemComboBox();
+                        //测试
+                        repository.Items.AddRange(new object[] { "cccc", "eeee" });
+                        repository.TextEditStyle = TextEditStyles.DisableTextEditor;
+                        comboBoxEdit.Edit = repository;
+                        comboBoxEdit.EditValue = repository.Items[0].ToString();
+                        comboBoxEdit.Width = 100;
+                        break;
+                    case XMLItemName.ListItem:
+                        break;
+                    case XMLItemName.RibbonGallery:
+                        break;
+                    case XMLItemName.SkinRibbonGallery:
+                        SkinHelper.InitSkinGallery((result as SkinRibbonGalleryBarItem));
+                        break;
+                    case XMLItemName.StaticText:
+                        break;
+                    case XMLItemName.TextEdit:
+                        BarEditItem textEditItem = result as BarEditItem;
+                        RepositoryItemTextEdit repositoryText = new RepositoryItemTextEdit();
+                        textEditItem.Edit = repositoryText;
+                        break;
+                    case XMLItemName.ToggleSwtich:
+                        break;
+                    default: break;
+                }
 
                 #region 不同类型按钮的处理,此处应该考虑下
-                //5.根据xmlItem.ItemName 来判断类型     
-                if (xmlItem.ItemName == XMLItemName.Button)
-                {
-                    if (xmlItem.ItemChecked != "")
-                    {
-                        BarButtonItem barButtonItem = result as BarButtonItem;
-                        barButtonItem.ButtonStyle = BarButtonStyle.Check;
-                        if (xmlItem.ItemChecked == "true")
-                        {
-                            barButtonItem.Down = true;
-                        }
-                        else
-                            barButtonItem.Down = false;
-                    }
-                }
-                else if (xmlItem.ItemName == XMLItemName.ButtonCheckDropDown)
-                {
-                    //判断如果有子菜单的情况 XMLItemName.ButtonCheckDropDown,暂时用不到，等换了新版本再说
-                }
-                else if (xmlItem.ItemName == XMLItemName.ButtonDropDownAct)
-                {
-                    BarButtonItem barButtonItem = result as BarButtonItem;
-                    barButtonItem.ButtonStyle = BarButtonStyle.DropDown;
-                    barButtonItem.ActAsDropDown = true;
-                }
-                else if (xmlItem.ItemName == XMLItemName.ButtonDropDown)
-                {
-                    BarButtonItem barButtonItem = result as BarButtonItem;
-                    barButtonItem.ButtonStyle = BarButtonStyle.DropDown;
-                }
-                else if (xmlItem.ItemName == XMLItemName.Check)
-                {
-                    if (xmlItem.ItemChecked != "")
-                    {
-                        BarCheckItem barCheckItem = result as BarCheckItem;
-                        barCheckItem.CheckBoxVisibility = CheckBoxVisibility.BeforeText;
-                    }
-                }
-                else if (xmlItem.ItemName == XMLItemName.SkinRibbonGallery)
-                {
-                    SkinRibbonGalleryBarItem item = result as SkinRibbonGalleryBarItem;
-                    SkinHelper.InitSkinGallery(item);
-                }
-                else if (xmlItem.ItemName == XMLItemName.ComboBoxEdit)
-                {
-                    BarEditItem item = result as BarEditItem;
-                    RepositoryItemComboBox repository = new RepositoryItemComboBox();
-                    //测试
-                    repository.Items.AddRange(new object[] { "cccc", "eeee" });
-                    repository.TextEditStyle = TextEditStyles.DisableTextEditor;
-                    item.Edit = repository;
-                    item.EditValue = repository.Items[0].ToString();
-                    item.Width = 100;
-
-                }
-                else if (xmlItem.ItemName == XMLItemName.TextEdit)
-                {
-                    BarEditItem item = result as BarEditItem;
-                    RepositoryItemTextEdit repository = new RepositoryItemTextEdit();
-                    item.Edit = repository;
-                }
                 #endregion
             }
             return result;

@@ -81,48 +81,13 @@ namespace HuaBo.Gis.Desktop
 
                 foreach (XmlNode itemNode in groupnode.ChildNodes)
                 {
-                    CreateItem(itemNode, group);
+                    //先解析此Item，如果标签名是Items，则转换为
+                    XMLItem.CreateBarItem(itemNode, Ribbon, group.ItemLinks, m_ctrlActions);
                 }
             }
         }
 
-        private static void CreateEditItem()
-        {
 
-        }
-
-        private static void CreateItem(XmlNode itemNode, RibbonPageGroup group)
-        {
-            //先解析此Item，如果标签名是Items，则转换为
-            XMLItem xmlItem = XMLItem.GetXMLItem(itemNode);
-            CtrlAction ctrlAction = null;
-            if (m_ctrlActions.Keys.Contains(xmlItem.ItemBindClass))
-            {
-                ctrlAction = m_ctrlActions[xmlItem.ItemBindClass];
-            }
-            BarItem barItem = XMLItem.GetBarItem(xmlItem, ctrlAction, group.ItemLinks);
-
-            //下拉菜单
-            //还包括Combox
-            BarButtonItem barButtonItem = barItem as BarButtonItem;
-            if (barButtonItem != null && barButtonItem.ButtonStyle == BarButtonStyle.DropDown)
-            {
-                PopupMenu popup = new PopupMenu();
-                popup.Ribbon = Ribbon;
-                barButtonItem.DropDownControl = popup;
-
-                foreach (XmlNode dropItemNode in itemNode.ChildNodes)
-                {
-                    XMLItem xmlDropItem = XMLItem.GetXMLItem(dropItemNode);
-                    if (m_ctrlActions.Keys.Contains(xmlDropItem.ItemBindClass))
-                    {
-                        ctrlAction = m_ctrlActions[xmlDropItem.ItemBindClass];
-                    }
-
-                    BarItem barDropItem = XMLItem.GetBarItem(xmlDropItem, ctrlAction, popup.ItemLinks);
-                }
-            }
-        }
 
     }
 }

@@ -29,14 +29,15 @@ namespace HuaBo.Gis.Desktop
                             menus.Add(menu.Name, menu);
                             foreach (XmlNode item in popupItem.ChildNodes)
                             {
-                                XMLItem xmlItem = XMLItem.GetXMLItem(item);
-                                CtrlAction ctrlAction = null;
-                                BarItem barItem = null;
-                                if (ctrlActions.Keys.Contains(xmlItem.ItemBindClass))
-                                {
-                                    ctrlAction = ctrlActions[xmlItem.ItemBindClass];
-                                    barItem = XMLItem.GetBarItem(xmlItem, ctrlAction, menu.ItemLinks);
-                                }
+                                XMLItem.CreateBarItem(item, ribbon, menu.ItemLinks, ctrlActions);
+                                //XMLItem xmlItem = XMLItem.GetXMLItem(item);
+                                //CtrlAction ctrlAction = null;
+                                //BarItem barItem = null;
+                                //if (ctrlActions.Keys.Contains(xmlItem.ItemBindClass))
+                                //{
+                                //    ctrlAction = ctrlActions[xmlItem.ItemBindClass];
+                                //    barItem = XMLItem.GetBarItem(xmlItem, ctrlAction, menu.ItemLinks);
+                                //}
 
                             }
                         }
