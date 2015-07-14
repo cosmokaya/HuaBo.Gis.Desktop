@@ -1,5 +1,4 @@
-﻿using HuaBo.Gis.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -7,15 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using HuaBo.Gis.Desktop;
-using SuperMap.Data;
-using SuperMap.Realspace;
+using HuaBo.Gis.Interfaces;
 using SuperMap.UI;
-using DevExpress.XtraBars;
 
 namespace HuaBo.Gis.Scenes
 {
+
     [Export(typeof(CtrlAction))]
-    public class SceneSelectAction : CtrlAction
+    class ScenePanAction : CtrlAction
     {
         private bool m_isRunning = false;
         private IFormScene m_formScene;
@@ -34,16 +32,14 @@ namespace HuaBo.Gis.Scenes
         private void Register()
         {
             m_isRunning = true;
-            m_formScene.SceneControl.MouseClick += SceneControl_MouseClick;
             m_formScene.OperateChanged += m_formScene_OperateChanged;
             m_formScene.SceneControl.ObjectSelected += SceneControl_ObjectSelected;
-            m_formScene.OperateType = OperateType.Select;
+            m_formScene.OperateType = OperateType.Pan;
         }
 
         private void UnRegister()
         {
             m_isRunning = false;
-            m_formScene.SceneControl.MouseClick -= SceneControl_MouseClick;
             m_formScene.OperateChanged -= m_formScene_OperateChanged;
             m_formScene.SceneControl.ObjectSelected -= SceneControl_ObjectSelected;
         }
@@ -55,9 +51,9 @@ namespace HuaBo.Gis.Scenes
 
         void m_formScene_OperateChanged(object sender, OperateChangedEventArgs e)
         {
-            if (e.NewOperateType == OperateType.Select)
+            if (e.NewOperateType == OperateType.Pan)
             {
-                m_formScene.SceneControl.Action = Action3D.Select;
+                m_formScene.SceneControl.Action = Action3D.Pan;
             }
             else
             {
@@ -65,17 +61,10 @@ namespace HuaBo.Gis.Scenes
             }
         }
 
-        void SceneControl_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                m_formScene.OperateType = OperateType.Pan2;
-            }
-        }
 
         public override CheckState Check()
         {
-            if (m_formScene != null && m_formScene.OperateType == OperateType.Select)
+            if (m_formScene != null && m_formScene.OperateType == OperateType.Pan)
             {
                 return CheckState.Checked;
             }

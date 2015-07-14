@@ -37,8 +37,8 @@
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.m_dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.m_documentManager = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
-            this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_dockManager)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_documentManager)).BeginInit();
@@ -69,7 +69,7 @@
             // 
             // barButtonItem2
             // 
-            this.barButtonItem2.Caption = "barButtonItem2";
+            this.barButtonItem2.Caption = "fullScreen";
             this.barButtonItem2.Id = 4;
             this.barButtonItem2.Name = "barButtonItem2";
             this.barButtonItem2.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem2_ItemClick);
@@ -117,17 +117,12 @@
             this.m_documentManager.ViewCollection.AddRange(new DevExpress.XtraBars.Docking2010.Views.BaseView[] {
             this.tabbedView1});
             // 
-            // tabbedView1
-            // 
-            this.tabbedView1.DocumentProperties.AllowDock = false;
-            this.tabbedView1.DocumentProperties.AllowFloat = false;
-            this.tabbedView1.DocumentProperties.UseFormIconAsDocumentImage = true;
-            // 
             // barButtonItem1
             // 
-            this.barButtonItem1.Caption = "barButtonItem1";
+            this.barButtonItem1.Caption = "addForm";
             this.barButtonItem1.Id = 5;
             this.barButtonItem1.Name = "barButtonItem1";
+            this.barButtonItem1.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem1_ItemClick);
             // 
             // FormMain
             // 
@@ -161,8 +156,8 @@
         private DevExpress.XtraBars.SkinRibbonGalleryBarItem skinRibbonGalleryBarItem1;
         private DevExpress.XtraBars.Docking.DockManager m_dockManager;
         private DevExpress.XtraBars.Docking2010.DocumentManager m_documentManager;
-        private DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView tabbedView1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem2;
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+        private DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView tabbedView1;
     }
 }

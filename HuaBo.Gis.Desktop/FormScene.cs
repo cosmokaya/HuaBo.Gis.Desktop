@@ -19,6 +19,20 @@ namespace HuaBo.Gis.Desktop
         public FormScene()
         {
             InitializeComponent();
+            m_sceneControl = new SceneControl();
+            m_sceneControl.Dock = DockStyle.Fill;
+            m_sceneControl.IsAlwaysUpdate = true;
+            m_sceneControl.Action = Action3D.Pan2;
+            this.Controls.Add(m_sceneControl);
+
+            this.OperateChanged += (m, n) =>
+            {
+                if (n.NewOperateType == OperateType.Pan2)
+                {
+                    m_sceneControl.Action = Action3D.Pan2;
+                }
+            };
+            this.OperateType = OperateType.Pan2;
         }
 
         private SceneControl m_sceneControl;
@@ -51,18 +65,7 @@ namespace HuaBo.Gis.Desktop
 
         private void FormScene_Load(object sender, EventArgs e)
         {
-            m_sceneControl = new SceneControl();
-            m_sceneControl.Dock = DockStyle.Fill;
-            m_sceneControl.IsAlwaysUpdate = true;
-            this.Controls.Add(m_sceneControl);
 
-            this.OperateChanged += (m, n) =>
-            {
-                if (n.NewOperateType == OperateType.Pan)
-                {
-                    m_sceneControl.Action = Action3D.Pan;
-                }
-            };
         }
 
 

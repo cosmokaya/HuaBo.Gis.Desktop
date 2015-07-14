@@ -120,6 +120,7 @@ namespace HuaBo.Gis.Desktop
                                 (barItem as BarButtonItem).Down = ctrl.Check() == CheckState.Checked;
                             }
                         }
+
                     }
                 }
             };

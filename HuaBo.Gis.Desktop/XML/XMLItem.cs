@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.Helpers;
@@ -155,15 +156,31 @@ namespace HuaBo.Gis.Desktop.XML
                         (result as BarButtonItem).ButtonStyle = BarButtonStyle.DropDown;
                         PopupMenu popup = new PopupMenu();
                         popup.Ribbon = ribbon;
+                        popup.BeforePopup += (m, n) =>
+                        {
+                            foreach (BarItemLink linkItem in popup.ItemLinks)
+                            {
+                                BarItem popupItem = linkItem.Item;
+                                CtrlAction ctrl = popupItem.Tag as CtrlAction;
+                                if (ctrl != null)
+                                {
+                                    popupItem.Enabled = ctrl.Enable();
+                                    if ((popupItem as BarCheckItem) != null)
+                                    {
+                                        (popupItem as BarCheckItem).Checked = ctrl.Check() == CheckState.Checked;
+                                    }
+                                    if ((popupItem as BarButtonItem) != null)
+                                    {
+                                        (popupItem as BarButtonItem).Down = ctrl.Check() == CheckState.Checked;
+                                    }
+                                }
+                            }
+                        };
                         ((result as BarButtonItem)).DropDownControl = popup;
 
                         foreach (XmlNode dropItemNode in itemNode.ChildNodes)
                         {
                             XMLItem xmlDropItem = XMLItem.GetXMLItem(dropItemNode);
-                            //if (ctrlActions.Keys.Contains(xmlDropItem.ItemBindClass))
-                            //{
-                            //    ctrlAction = ctrlActions[xmlDropItem.ItemBindClass];
-                            //}
                             BarItem barDropItem = XMLItem.CreateBarItem(dropItemNode, ribbon, popup.ItemLinks, ctrlActions);
                         }
                         break;

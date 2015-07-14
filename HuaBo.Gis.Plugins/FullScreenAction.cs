@@ -16,20 +16,22 @@ namespace HuaBo.Gis.Plugins
     {
         public override void Run()
         {
+
             MessageBox.Show("暂时有问题！FormScene全屏报错");
-            //if (GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument != null)
-            //{
-            //    if (GisApp.ActiveApp.FormMain.DocumentManager.View.Type != ViewType.NativeMdi)
-            //    {
-            //        GisApp.ActiveApp.FormMain.DocumentManager.View = GisApp.ActiveApp.FormMain.DocumentManager.CreateView(ViewType.NativeMdi);
-            //    }
-            //    Form form = GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument.Form;
-            //    form.MdiParent = null;
-            //    form.FormBorderStyle = FormBorderStyle.None;
-            //    form.WindowState = FormWindowState.Maximized;
-            //    form.KeyPreview = true;
-            //    form.KeyDown += form_KeyDown;
-            //}
+            if (GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument != null)
+            {
+                if (GisApp.ActiveApp.FormMain.DocumentManager.View.Type != ViewType.NativeMdi)
+                {
+                    GisApp.ActiveApp.FormMain.DocumentManager.View = GisApp.ActiveApp.FormMain.DocumentManager.CreateView(ViewType.NativeMdi);
+                }
+                Form form = GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument.Form;
+                form.MdiParent = null;
+                form.FormBorderStyle = FormBorderStyle.None;
+                form.WindowState = FormWindowState.Maximized;
+                form.KeyPreview = true;
+                form.KeyDown += form_KeyDown;
+            }
+
         }
 
         void form_KeyDown(object sender, KeyEventArgs e)

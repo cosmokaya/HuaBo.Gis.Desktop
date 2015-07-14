@@ -8,9 +8,12 @@ namespace HuaBo.Gis.Interfaces
 {
     public enum OperateType
     {
-        //无
+        //选择和平移功能
         Pan = 1,
-        Select = 2,
+        //平移功能
+        Pan2 = 2,
+        //选择
+        Select = 3,
         //测量距离
         Distance = 11,
         //测量面积
