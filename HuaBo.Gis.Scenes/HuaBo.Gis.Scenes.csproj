@@ -79,9 +79,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ScenePan2Action.cs" />
+    <Compile Include="SceneRefreshAction.cs" />
     <Compile Include="SceneSelectAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScenePanAction.cs" />
+    <Compile Include="SceneSunVisibleAction.cs" />
+    <Compile Include="SceneViewEntireAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HuaBo.Gis.Desktop\HuaBo.Gis.Desktop.csproj">
