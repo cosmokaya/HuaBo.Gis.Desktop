@@ -34,6 +34,21 @@ namespace HuaBo.Gis.Desktop
             }
         }
 
+        public event EventHandler<OperateChangedEventArgs> OperateChanged;
+        private OperateType m_operateType;
+        public OperateType OperateType
+        {
+            get { return m_operateType; }
+            set
+            {
+                if (m_operateType != value)
+                {
+                    OperateChanged(this, new OperateChangedEventArgs(m_operateType, value));
+                    m_operateType = value;
+                }
+            }
+        }
+
         private void FormScene_Load(object sender, EventArgs e)
         {
             m_sceneControl = new SceneControl();
@@ -41,7 +56,15 @@ namespace HuaBo.Gis.Desktop
             m_sceneControl.IsAlwaysUpdate = true;
             this.Controls.Add(m_sceneControl);
 
+            this.OperateChanged += (m, n) =>
+            {
+                if (n.NewOperateType == OperateType.Pan)
+                {
+                    m_sceneControl.Action = Action3D.Pan;
+                }
+            };
         }
+
 
         private void FormScene_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -56,6 +79,7 @@ namespace HuaBo.Gis.Desktop
             DialogResult result = MessageBox.Show("是否需要保存？", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
+                this.m_sceneControl.Scene.Dispose();
                 //this.Save();
             }
             else if (result == DialogResult.No)

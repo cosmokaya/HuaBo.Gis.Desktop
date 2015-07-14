@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HuaBo.Gis.Desktop", "HuaBo.Gis.Desktop\HuaBo.Gis.Desktop.csproj", "{0AECA070-1E31-466E-864A-AEDB5AD593DE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HuaBo.Gis.Interfaces", "HuaBo.Gis.Interfaces\HuaBo.Gis.Interfaces.csproj", "{7B819C1E-BB44-4BCE-8140-81A1073ADC81}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HuaBo.Gis.Plugins", "HuaBo.Gis.Plugins\HuaBo.Gis.Plugins.csproj", "{6FB29C52-2F57-4E0F-9B4B-17416D9C195C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HuaBo.Gis.Scenes", "HuaBo.Gis.Scenes\HuaBo.Gis.Scenes.csproj", "{716ABAEA-F2F0-4D8D-9AD7-99771DD48D8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,13 @@ Global
 		{6FB29C52-2F57-4E0F-9B4B-17416D9C195C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6FB29C52-2F57-4E0F-9B4B-17416D9C195C}.Release|x64.ActiveCfg = Release|x64
 		{6FB29C52-2F57-4E0F-9B4B-17416D9C195C}.Release|x64.Build.0 = Release|x64
+		{716ABAEA-F2F0-4D8D-9AD7-99771DD48D8D}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{716ABAEA-F2F0-4D8D-9AD7-99771DD48D8D}.Debug|Any CPU.Build.0 = Debug|x64
+		{716ABAEA-F2F0-4D8D-9AD7-99771DD48D8D}.Debug|x64.ActiveCfg = Debug|x64
+		{716ABAEA-F2F0-4D8D-9AD7-99771DD48D8D}.Debug|x64.Build.0 = Debug|x64
+		{716ABAEA-F2F0-4D8D-9AD7-99771DD48D8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{716ABAEA-F2F0-4D8D-9AD7-99771DD48D8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{716ABAEA-F2F0-4D8D-9AD7-99771DD48D8D}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

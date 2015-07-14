@@ -116,6 +116,7 @@ namespace HuaBo.Gis.Desktop.XML
                 if (ctrlAction != null)
                 {
                     ctrlAction.BarItem = result;
+                    result.Tag = ctrlAction;
                     if ((result as BarEditItem) != null)
                     {
                         (result as BarEditItem).EditValueChanged += (m, n) => { ctrlAction.Run(); };

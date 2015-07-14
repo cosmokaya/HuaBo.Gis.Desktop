@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7B819C1E-BB44-4BCE-8140-81A1073ADC81}</ProjectGuid>
+    <ProjectGuid>{716ABAEA-F2F0-4D8D-9AD7-99771DD48D8D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HuaBo.Gis.Interfaces</RootNamespace>
-    <AssemblyName>HuaBo.Gis.Interfaces</AssemblyName>
+    <RootNamespace>HuaBo.Gis.Scenes</RootNamespace>
+    <AssemblyName>HuaBo.Gis.Scenes</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,7 +31,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\Bin\</OutputPath>
+    <OutputPath>..\..\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -78,15 +78,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CtrlAction.cs" />
-    <Compile Include="Event\OperateChangedEventArgs.cs" />
-    <Compile Include="IForm.cs" />
-    <Compile Include="IFormMain.cs" />
-    <Compile Include="IFormManager.cs" />
-    <Compile Include="IFormMap.cs" />
-    <Compile Include="IFormScene.cs" />
-    <Compile Include="OperateType.cs" />
+    <Compile Include="RibbonForm1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RibbonForm1.Designer.cs">
+      <DependentUpon>RibbonForm1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SceneSelectAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HuaBo.Gis.Desktop\HuaBo.Gis.Desktop.csproj">
+      <Project>{0aeca070-1e31-466e-864a-aedb5ad593de}</Project>
+      <Name>HuaBo.Gis.Desktop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HuaBo.Gis.Interfaces\HuaBo.Gis.Interfaces.csproj">
+      <Project>{7b819c1e-bb44-4bce-8140-81a1073adc81}</Project>
+      <Name>HuaBo.Gis.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />

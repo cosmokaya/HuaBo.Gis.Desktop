@@ -157,13 +157,6 @@ namespace HuaBo.Gis.Desktop.XML
                 else
                 {
                     dockpanel = dockManager.AddPanel(dockingStyle);
-                    //设定默认大小
-                    //if (dockingStyle == DockingStyle.Left)
-                    //{ dockpanel.Width = 250; }
-                    //else
-                    //{ dockpanel.Width = 300; }
-
-                    //dockpanel.FloatSize = new Size(300, 600);
                 }
             }
             catch (Exception ex)

@@ -35,12 +35,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "ControlWorkspaceTree";
-            this.Size = new System.Drawing.Size(204, 212);
+            this.Size = new System.Drawing.Size(240, 313);
             this.Load += new System.EventHandler(this.ControlWorkspaceTree_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
     }
 }
