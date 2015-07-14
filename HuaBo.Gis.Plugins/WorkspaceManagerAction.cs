@@ -9,6 +9,7 @@ using DevExpress.XtraBars.Docking;
 using SuperMap.UI;
 using HuaBo.Gis.Interfaces;
 using HuaBo.Gis.Desktop;
+using DevExpress.XtraBars;
 
 namespace HuaBo.Gis.Plugins
 {
@@ -18,10 +19,11 @@ namespace HuaBo.Gis.Plugins
 
         public override void Run()
         {
-            DockPanel dockPanel = GisApp.ActiveApp.FormMain.DockManager[typeof(ControlWorkspaceTree) + ""];
-            if (dockPanel != null)
+            BarCheckItem item = this.BarItem as BarCheckItem;
+            if (item != null)
             {
-                if (dockPanel.Visibility == DockVisibility.Hidden)
+                DockPanel dockPanel = GisApp.ActiveApp.FormMain.DockManager[typeof(ControlWorkspaceTree) + ""];
+                if (item.Checked)
                 {
                     dockPanel.Visibility = DockVisibility.Visible;
                 }

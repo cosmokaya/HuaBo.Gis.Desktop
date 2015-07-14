@@ -160,10 +160,10 @@ namespace HuaBo.Gis.Desktop.XML
                         foreach (XmlNode dropItemNode in itemNode.ChildNodes)
                         {
                             XMLItem xmlDropItem = XMLItem.GetXMLItem(dropItemNode);
-                            if (ctrlActions.Keys.Contains(xmlDropItem.ItemBindClass))
-                            {
-                                ctrlAction = ctrlActions[xmlDropItem.ItemBindClass];
-                            }
+                            //if (ctrlActions.Keys.Contains(xmlDropItem.ItemBindClass))
+                            //{
+                            //    ctrlAction = ctrlActions[xmlDropItem.ItemBindClass];
+                            //}
                             BarItem barDropItem = XMLItem.CreateBarItem(dropItemNode, ribbon, popup.ItemLinks, ctrlActions);
                         }
                         break;
@@ -208,8 +208,6 @@ namespace HuaBo.Gis.Desktop.XML
                     default: break;
                 }
 
-                #region 不同类型按钮的处理,此处应该考虑下
-                #endregion
             }
             return result;
         }
