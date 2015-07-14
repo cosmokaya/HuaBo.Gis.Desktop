@@ -104,6 +104,7 @@
     <Compile Include="ControlWorkspaceTree.Designer.cs">
       <DependentUpon>ControlWorkspaceTree.cs</DependentUpon>
     </Compile>
+    <Compile Include="FullScreenAction.cs" />
     <Compile Include="LegendControlAction.cs" />
     <Compile Include="OpenWorkspaceFileAction.cs" />
     <Compile Include="OpenWorkspaceOracleAction.cs" />

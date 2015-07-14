@@ -38,6 +38,7 @@
             this.m_dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.m_documentManager = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
             this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_dockManager)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_documentManager)).BeginInit();
@@ -50,13 +51,14 @@
             this.ribbon.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbon.ExpandCollapseItem,
             this.skinRibbonGalleryBarItem1,
-            this.barButtonItem2});
+            this.barButtonItem2,
+            this.barButtonItem1});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 5;
+            this.ribbon.MaxItemId = 6;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
-            this.ribbon.Size = new System.Drawing.Size(766, 147);
+            this.ribbon.Size = new System.Drawing.Size(766, 151);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
             // skinRibbonGalleryBarItem1
@@ -83,15 +85,16 @@
             // 
             this.ribbonPageGroup1.ItemLinks.Add(this.skinRibbonGalleryBarItem1);
             this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem2);
+            this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem1);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             this.ribbonPageGroup1.Text = "ribbonPageGroup1";
             // 
             // ribbonStatusBar
             // 
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 527);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 531);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(766, 31);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(766, 27);
             // 
             // m_dockManager
             // 
@@ -119,6 +122,12 @@
             this.tabbedView1.DocumentProperties.AllowDock = false;
             this.tabbedView1.DocumentProperties.AllowFloat = false;
             this.tabbedView1.DocumentProperties.UseFormIconAsDocumentImage = true;
+            // 
+            // barButtonItem1
+            // 
+            this.barButtonItem1.Caption = "barButtonItem1";
+            this.barButtonItem1.Id = 5;
+            this.barButtonItem1.Name = "barButtonItem1";
             // 
             // FormMain
             // 
@@ -154,5 +163,6 @@
         private DevExpress.XtraBars.Docking2010.DocumentManager m_documentManager;
         private DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView tabbedView1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem2;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
     }
 }

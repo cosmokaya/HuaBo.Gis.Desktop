@@ -116,8 +116,9 @@ namespace HuaBo.Gis.Desktop
 
         private void barButtonItem2_ItemClick(object sender, ItemClickEventArgs e)
         {
-            GisApp.ActiveApp.CreateFormScene();
-
+            GisApp.ActiveApp.FormMain.DocumentManager.View.Controller.FloatAll();
+            //Form form = GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument.Form as Form;
+            //form.MdiParent = null;
         }
 
 
