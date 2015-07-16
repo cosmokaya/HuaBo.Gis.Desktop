@@ -17,7 +17,7 @@ namespace HuaBo.Gis.Scenes
     {
         public override void Run()
         {
-            Form form = GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument.Form;
+            Form form = GisApp.ActiveApp.FormMain.ActiveForm as Form;
             if (form != null)
             {
                 IFormScene formScene = form as IFormScene;
@@ -39,7 +39,7 @@ namespace HuaBo.Gis.Scenes
 
         public override CheckState Check()
         {
-            Form form = GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument.Form;
+            Form form = GisApp.ActiveApp.FormMain.ActiveForm as Form;
             if (form != null)
             {
                 IFormScene formScene = form as IFormScene;

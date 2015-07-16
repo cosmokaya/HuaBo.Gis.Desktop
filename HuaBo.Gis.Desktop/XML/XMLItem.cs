@@ -139,86 +139,34 @@ namespace HuaBo.Gis.Desktop.XML
                 switch (xmlItem.ItemName)
                 {
                     case XMLItemName.Button://普通button,但是带checked属性
-                        if (xmlItem.ItemChecked != "")
-                        {
-                            (result as BarButtonItem).ButtonStyle = BarButtonStyle.Check;
-                            if (xmlItem.ItemChecked == "true")
-                            {
-                                (result as BarButtonItem).Down = true;
-                            }
-                            else
-                                (result as BarButtonItem).Down = false;
-                        }
+                        CreateBarButtonItem(result, xmlItem);
                         break;
                     case XMLItemName.ButtonCheckDropDown://判断如果有子菜单的情况 XMLItemName.ButtonCheckDropDown,暂时用不到，等换了新版本再说
+                        CreateBarButtonCheckDropItem(result, xmlItem);
                         break;
                     case XMLItemName.ButtonDropDown:
-                        (result as BarButtonItem).ButtonStyle = BarButtonStyle.DropDown;
-                        PopupMenu popup = new PopupMenu();
-                        popup.Ribbon = ribbon;
-                        popup.BeforePopup += (m, n) =>
-                        {
-                            foreach (BarItemLink linkItem in popup.ItemLinks)
-                            {
-                                BarItem popupItem = linkItem.Item;
-                                CtrlAction ctrl = popupItem.Tag as CtrlAction;
-                                if (ctrl != null)
-                                {
-                                    popupItem.Enabled = ctrl.Enable();
-                                    if ((popupItem as BarCheckItem) != null)
-                                    {
-                                        (popupItem as BarCheckItem).Checked = ctrl.Check() == CheckState.Checked;
-                                    }
-                                    if ((popupItem as BarButtonItem) != null)
-                                    {
-                                        (popupItem as BarButtonItem).Down = ctrl.Check() == CheckState.Checked;
-                                    }
-                                }
-                            }
-                        };
-                        ((result as BarButtonItem)).DropDownControl = popup;
-
-                        foreach (XmlNode dropItemNode in itemNode.ChildNodes)
-                        {
-                            XMLItem xmlDropItem = XMLItem.GetXMLItem(dropItemNode);
-                            BarItem barDropItem = XMLItem.CreateBarItem(dropItemNode, ribbon, popup.ItemLinks, ctrlActions);
-                        }
+                        CreateBarButtonDrop(result, xmlItem, ribbon, ctrlActions);
                         break;
                     case XMLItemName.ButtonDropDownAct:
-                        (result as BarButtonItem).ButtonStyle = BarButtonStyle.DropDown;
-                        (result as BarButtonItem).ActAsDropDown = true;
+                        CreateBarDropActItem(result, xmlItem);
                         break;
                     case XMLItemName.ButtonGroup:
                         break;
                     case XMLItemName.Check:
-                        if (xmlItem.ItemChecked != "")
-                        {
-                            (result as BarCheckItem).CheckBoxVisibility = CheckBoxVisibility.BeforeText;
-                        }
+                        CreateBarCheckItem(result, xmlItem);
                         break;
                     case XMLItemName.ComboBoxEdit:
-                        BarEditItem comboBoxEdit = result as BarEditItem;
-                        RepositoryItemComboBox repository = new RepositoryItemComboBox();
-                        //测试
-                        repository.Items.AddRange(new object[] { "cccc", "eeee" });
-                        repository.TextEditStyle = TextEditStyles.DisableTextEditor;
-                        comboBoxEdit.Edit = repository;
-                        comboBoxEdit.EditValue = repository.Items[0].ToString();
-                        comboBoxEdit.Width = 100;
-                        break;
-                    case XMLItemName.ListItem:
+                        CreateBarComboBoxEditItem(result, xmlItem);
                         break;
                     case XMLItemName.RibbonGallery:
                         break;
                     case XMLItemName.SkinRibbonGallery:
-                        SkinHelper.InitSkinGallery((result as SkinRibbonGalleryBarItem));
+                        CreateSkinRibbonGalleryBarItem(result, xmlItem);
                         break;
                     case XMLItemName.StaticText:
                         break;
                     case XMLItemName.TextEdit:
-                        BarEditItem textEditItem = result as BarEditItem;
-                        RepositoryItemTextEdit repositoryText = new RepositoryItemTextEdit();
-                        textEditItem.Edit = repositoryText;
+                        CreateBarTextEditItem(result, xmlItem);
                         break;
                     case XMLItemName.ToggleSwtich:
                         break;
@@ -228,5 +176,159 @@ namespace HuaBo.Gis.Desktop.XML
             }
             return result;
         }
+
+        //普通的Button，但是包含Check类型
+        private static BarButtonItem CreateBarButtonItem(BarItem barItem, XMLItem xmlItem)
+        {
+            BarButtonItem result = barItem as BarButtonItem;
+            try
+            {
+                result = barItem as BarButtonItem;
+                if (xmlItem.ItemChecked != "")
+                {
+                    result.ButtonStyle = BarButtonStyle.Check;
+                    if (xmlItem.ItemChecked == "true")
+                        result.Down = true;
+                    else
+                        result.Down = false;
+                }
+            }
+            catch (Exception)
+            {
+                result = barItem as BarButtonItem;
+            }
+
+            return result;
+        }
+
+        //14.2的按钮，以后写
+        private static BarButtonItem CreateBarButtonCheckDropItem(BarItem barItem, XMLItem xmlItem)
+        {
+            return null;
+        }
+
+        private static BarButtonItem CreateBarButtonDrop(BarItem barItem, XMLItem xmlItem, RibbonControl ribbon, Dictionary<string, CtrlAction> ctrlActions)
+        {
+            BarButtonItem result = barItem as BarButtonItem;
+            try
+            {
+                result.ButtonStyle = BarButtonStyle.DropDown;
+                PopupMenu popup = new PopupMenu();
+                popup.Ribbon = ribbon;
+                popup.BeforePopup += (m, n) =>
+                {
+                    foreach (BarItemLink linkItem in popup.ItemLinks)
+                    {
+                        GisApp.ActiveApp.RefreshItem(linkItem.Item);
+                    }
+                };
+                result.DropDownControl = popup;
+
+                foreach (XmlNode dropItemNode in xmlItem.XmlNode.ChildNodes)
+                {
+                    BarItem barDropItem = XMLItem.CreateBarItem(dropItemNode, ribbon, popup.ItemLinks, ctrlActions);
+                }
+            }
+            catch (Exception)
+            {
+                result = barItem as BarButtonItem;
+            }
+            return result;
+        }
+
+        //应该有下拉的，还没写
+        private static BarButtonItem CreateBarDropActItem(BarItem barItem, XMLItem xmlItem)
+        {
+            BarButtonItem result = barItem as BarButtonItem;
+            try
+            {
+                result.ButtonStyle = BarButtonStyle.DropDown;
+                result.ActAsDropDown = true;
+            }
+            catch (Exception)
+            {
+                result = barItem as BarButtonItem;
+            }
+            return result;
+        }
+
+        private static BarButtonGroup CreateBarButtonGroup(BarItem barItem, XMLItem xmlItem)
+        {
+            return null;
+        }
+
+        private static BarCheckItem CreateBarCheckItem(BarItem barItem, XMLItem xmlItem)
+        {
+            BarCheckItem result = barItem as BarCheckItem;
+            try
+            {
+                result.CheckBoxVisibility = CheckBoxVisibility.BeforeText;
+            }
+            catch (Exception)
+            {
+                result = barItem as BarCheckItem;
+            }
+            return result;
+        }
+
+        private static BarEditItem CreateBarComboBoxEditItem(BarItem barItem, XMLItem xmlItem)
+        {
+            BarEditItem result = barItem as BarEditItem;
+            try
+            {
+                RepositoryItemComboBox repository = new RepositoryItemComboBox();
+                //todo：未完全完成
+                repository.Items.AddRange(new object[] { "cccc", "eeee" });
+                repository.TextEditStyle = TextEditStyles.DisableTextEditor;
+                result.Edit = repository;
+                result.EditValue = repository.Items[0].ToString();
+                result.Width = 100;
+            }
+            catch (Exception)
+            {
+                result = barItem as BarEditItem;
+            }
+            return result;
+        }
+
+        private static BarEditItem CreateBarTextEditItem(BarItem barItem, XMLItem xmlItem)
+        {
+            BarEditItem result = barItem as BarEditItem;
+            try
+            {
+                RepositoryItemTextEdit repositoryText = new RepositoryItemTextEdit();
+                result.Edit = repositoryText;
+            }
+            catch (Exception)
+            {
+                result = barItem as BarEditItem;
+            }
+            return result;
+        }
+
+        private static RibbonGalleryBarItem CreateRibbonGalleryBarItem(BarItem barItem, XMLItem xmlItem)
+        {
+            return null;
+        }
+
+        private static SkinRibbonGalleryBarItem CreateSkinRibbonGalleryBarItem(BarItem barItem, XMLItem xmlItem)
+        {
+            SkinRibbonGalleryBarItem result = barItem as SkinRibbonGalleryBarItem;
+            try
+            {
+                SkinHelper.InitSkinGallery(result);
+            }
+            catch (Exception)
+            {
+                GisApp.ActiveApp.Output.Warning("SkinRibbonGalleryBarItem初始化失败！");
+            }
+            return result;
+        }
+        private static BarStaticItem CreateBarStaticItem(BarItem barItem, XMLItem xmlItem)
+        {
+            return null;
+        }
+
+
     }
 }

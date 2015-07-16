@@ -21,9 +21,9 @@ namespace HuaBo.Gis.Scenes
         private IFormScene m_formScene;
         public override void Run()
         {
-            if (GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument != null)
+            if (GisApp.ActiveApp.FormMain.ActiveForm != null)
             {
-                m_formScene = GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument.Form as IFormScene;
+                m_formScene = GisApp.ActiveApp.FormMain.ActiveForm as IFormScene;
             }
             if (!m_isRunning)
             {

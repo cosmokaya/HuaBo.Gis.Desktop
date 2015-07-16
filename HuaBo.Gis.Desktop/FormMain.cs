@@ -43,6 +43,19 @@ namespace HuaBo.Gis.Desktop
             set { this.m_popupMenus = value; }
         }
 
+        public new IForm ActiveForm
+        {
+            get
+            {
+                IForm result = null;
+                if (this.DocumentManager.View.ActiveDocument != null)
+                {
+                    result = this.DocumentManager.View.ActiveDocument.Form as IForm;
+                }
+                return result;
+            }
+        }
+
         public FormMain()
         {
             InitializeComponent();
@@ -129,6 +142,9 @@ namespace HuaBo.Gis.Desktop
         {
             GisApp.ActiveApp.CreateFormScene();
         }
+
+
+
 
 
 

@@ -37,8 +37,8 @@ namespace HuaBo.Gis.Desktop
             get { return m_doc; }
             set { m_doc = value; }
         }
-        private string m_xmlPath = @"D:\360云盘\Code\DevGis\插件式Gis开发\WorkEnvironment\Default2.xml";
-        private string m_extensionDir = @"D:\360云盘\Code\DevGis\插件式Gis开发\Plugins";
+        private string m_xmlPath = @"..\WorkEnvironment\Default2.xml";
+        private string m_extensionDir = @"..\Plugins\";
         //保存加载的控件和CtrlAction
         Dictionary<string, CtrlAction> m_ctrlActions = new Dictionary<string, CtrlAction>();
         //控件也应该有这个集合,考虑- -
@@ -81,9 +81,6 @@ namespace HuaBo.Gis.Desktop
         }
 
 
-
-
-
         void GisApp_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (Workspace != null)
@@ -105,30 +102,33 @@ namespace HuaBo.Gis.Desktop
                 {
                     for (int j = 0; j < this.FormMain.RibbonView.SelectedPage.Groups[i].ItemLinks.Count; j++)
                     {
-                        BarItem barItem = this.FormMain.RibbonView.SelectedPage.Groups[i].ItemLinks[j].Item;
-
-                        CtrlAction ctrl = barItem.Tag as CtrlAction;
-                        if (ctrl != null)
-                        {
-                            barItem.Enabled = ctrl.Enable();
-                            if ((barItem as BarCheckItem) != null)
-                            {
-                                (barItem as BarCheckItem).Checked = ctrl.Check() == CheckState.Checked;
-                            }
-                            if ((barItem as BarButtonItem) != null)
-                            {
-                                (barItem as BarButtonItem).Down = ctrl.Check() == CheckState.Checked;
-                            }
-                        }
-
+                        RefreshItem(this.FormMain.RibbonView.SelectedPage.Groups[i].ItemLinks[j].Item);
                     }
                 }
             };
             timer.Start();
         }
 
+        public void RefreshItem(BarItem barItem)
+        {
+            CtrlAction ctrl = barItem.Tag as CtrlAction;
+            if (ctrl != null)
+            {
+                barItem.Enabled = ctrl.Enable();
+                if ((barItem as BarCheckItem) != null)
+                {
+                    (barItem as BarCheckItem).Checked = ctrl.Check() == CheckState.Checked;
+                }
+                if ((barItem as BarButtonItem) != null)
+                {
+                    (barItem as BarButtonItem).Down = ctrl.Check() == CheckState.Checked;
+                }
+            }
+        }
+
         public IFormScene CreateFormScene(string sceneName = "")
         {
+            (this.FormMain as Form).Cursor = Cursors.WaitCursor;
             FormScene formscene = new FormScene();
             formscene.Name = Guid.NewGuid() + ""; ;
             formscene.Dock = DockStyle.Fill;
@@ -136,11 +136,15 @@ namespace HuaBo.Gis.Desktop
 
             formscene.MdiParent = this.FormMain as Form;
             formscene.Show();
+
+            (this.FormMain as Form).Cursor = Cursors.Default;
             return formscene;
         }
 
         public IFormMap CreateFormMap(string mapScene = "")
         {
+            (this.FormMain as Form).Cursor = Cursors.WaitCursor;
+            (this.FormMain as Form).Cursor = Cursors.Default;
             return null;
         }
 

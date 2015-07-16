@@ -19,6 +19,9 @@ namespace HuaBo.Gis.Interfaces
 
         Dictionary<string, PopupMenu> PopupMenus { get; set; }
 
+        //为了方便，不然太长了
+        IForm ActiveForm { get;  }
+
 
     }
 }
