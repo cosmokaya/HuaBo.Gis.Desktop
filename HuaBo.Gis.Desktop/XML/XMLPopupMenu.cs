@@ -25,9 +25,10 @@ namespace HuaBo.Gis.Desktop.XML
             XmlNode = xmlNode;
         }
 
-        public static PopupMenu CreatePopupMenu(XmlNode xmlNode)
+        public static PopupMenu CreatePopupMenu(XmlNode xmlNode, RibbonControl ribbon)
         {
             PopupMenu popupMenu = new PopupMenu();
+            popupMenu.Ribbon = ribbon;
             popupMenu.Name = NodeAttr.GetSetNodeAttrValue(xmlNode, Name, Guid.NewGuid() + "");
             popupMenu.BeforePopup += popupMenu_BeforePopup;
             return popupMenu;
@@ -38,20 +39,13 @@ namespace HuaBo.Gis.Desktop.XML
             foreach (BarItemLink item in ((PopupMenu)sender).ItemLinks)
             {
                 BarItem barItem = item.Item as BarItem;
-                if (barItem == null) continue;
-                CtrlAction ctrl = barItem.Tag as CtrlAction;
-                if (ctrl != null)
+                CtrlAction ctrlAction = barItem.Tag as CtrlAction;
+                if (ctrlAction != null)
                 {
-                    barItem.Enabled = ctrl.Enable();
-                    if ((barItem as BarCheckItem) != null)
-                    {
-                        (barItem as BarCheckItem).Checked = ctrl.Check() == CheckState.Checked;
-                    }
-                    if ((barItem as BarButtonItem) != null)
-                    {
-                        (barItem as BarButtonItem).Down = ctrl.Check() == CheckState.Checked;
-                    }
+                    //ctrlAction.Form = GisApp.ActiveApp.FormMain.ActiveForm;
+                    GisApp.ActiveApp.RefreshItem(barItem);
                 }
+
             }
         }
     }

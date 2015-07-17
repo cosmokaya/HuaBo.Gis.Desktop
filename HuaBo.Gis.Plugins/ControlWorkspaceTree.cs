@@ -13,22 +13,35 @@ using System.ComponentModel.Composition;
 using HuaBo.Gis.Interfaces;
 using HuaBo.Gis.Desktop;
 using DevExpress.XtraBars.Ribbon;
+using DevExpress.XtraBars;
 
 namespace HuaBo.Gis.Plugins
 {
     [Export(typeof(XtraUserControl))]
     public partial class ControlWorkspaceTree : DevExpress.XtraEditors.XtraUserControl
     {
+        private PopupMenu m_workspaceMenu = null;
+        private PopupMenu m_scenesMenu = null;
+        private PopupMenu m_sceneNameMenu = null;
+
         public ControlWorkspaceTree()
         {
             InitializeComponent();
 
+            BuildPopupMenus();
             WorkspaceTree workspaceTree = new WorkspaceTree(GisApp.ActiveApp.Workspace);
             workspaceTree.Dock = DockStyle.Fill;
             workspaceTree.SelectionChanged += workspaceTree_SelectionChanged;
             workspaceTree.NodeMouseDoubleClick += workspaceTree_NodeMouseDoubleClick;
             workspaceTree.NodeMouseClick += workspaceTree_NodeMouseClick;
             this.Controls.Add(workspaceTree);
+        }
+
+        public void BuildPopupMenus()
+        {
+            m_workspaceMenu = GisApp.ActiveApp.PopupMenus.ContainsKey("HuaBo.Gis.ContextWorkspace") ? GisApp.ActiveApp.PopupMenus["HuaBo.Gis.ContextWorkspace"] : (new PopupMenu());
+            m_scenesMenu = GisApp.ActiveApp.PopupMenus.ContainsKey("HuaBo.Gis.ContextScenes") ? GisApp.ActiveApp.PopupMenus["HuaBo.Gis.ContextScenes"] : (new PopupMenu());
+            m_sceneNameMenu = GisApp.ActiveApp.PopupMenus.ContainsKey("HuaBo.Gis.ContextScene") ? GisApp.ActiveApp.PopupMenus["HuaBo.Gis.ContextScene"] : (new PopupMenu());
         }
 
         void workspaceTree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -38,17 +51,17 @@ namespace HuaBo.Gis.Plugins
                 if (GisApp.ActiveApp.SelectNode.NodeType == WorkspaceTreeNodeDataType.Workspace)
                 {
                     Point pt = this.PointToScreen(new Point(e.X, e.Y));
-                    GisApp.ActiveApp.PopupMenus["HuaBo.Gis.ContextWorkspace"].ShowPopup(pt);
+                    m_workspaceMenu.ShowPopup(pt);
                 }
                 else if (GisApp.ActiveApp.SelectNode.NodeType == WorkspaceTreeNodeDataType.Scenes)
                 {
                     Point pt = this.PointToScreen(new Point(e.X, e.Y));
-                    GisApp.ActiveApp.PopupMenus["HuaBo.Gis.ContextScenes"].ShowPopup(pt);
+                    m_scenesMenu.ShowPopup(pt);
                 }
                 else if (GisApp.ActiveApp.SelectNode.NodeType == WorkspaceTreeNodeDataType.SceneName)
                 {
                     Point pt = this.PointToScreen(new Point(e.X, e.Y));
-                    GisApp.ActiveApp.PopupMenus["HuaBo.Gis.ContextScene"].ShowPopup(pt);
+                    m_sceneNameMenu.ShowPopup(pt);
                 }
             }
         }

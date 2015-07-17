@@ -118,13 +118,22 @@ namespace HuaBo.Gis.Desktop.XML
                 {
                     ctrlAction.BarItem = result;
                     result.Tag = ctrlAction;
+                    //一共在2个地方重新刷新了CtrlAction的Form属性。1,Popopu弹出前2.按钮点击前（暂定）
                     if ((result as BarEditItem) != null)
                     {
-                        (result as BarEditItem).EditValueChanged += (m, n) => { ctrlAction.Run(); };
+                        (result as BarEditItem).EditValueChanged += (m, n) =>
+                        {
+                            //ctrlAction.Form = GisApp.ActiveApp.FormMain.ActiveForm;
+                            ctrlAction.Run();
+                        };
                     }
                     else
                     {
-                        result.ItemClick += (m, n) => { ctrlAction.Run(); };
+                        result.ItemClick += (m, n) =>
+                        {
+                            //ctrlAction.Form = GisApp.ActiveApp.FormMain.ActiveForm;
+                            ctrlAction.Run();
+                        };
                     }
                 }
 
@@ -213,15 +222,7 @@ namespace HuaBo.Gis.Desktop.XML
             try
             {
                 result.ButtonStyle = BarButtonStyle.DropDown;
-                PopupMenu popup = new PopupMenu();
-                popup.Ribbon = ribbon;
-                popup.BeforePopup += (m, n) =>
-                {
-                    foreach (BarItemLink linkItem in popup.ItemLinks)
-                    {
-                        GisApp.ActiveApp.RefreshItem(linkItem.Item);
-                    }
-                };
+                PopupMenu popup = XMLPopupMenu.CreatePopupMenu(xmlItem.XmlNode, ribbon);
                 result.DropDownControl = popup;
 
                 foreach (XmlNode dropItemNode in xmlItem.XmlNode.ChildNodes)

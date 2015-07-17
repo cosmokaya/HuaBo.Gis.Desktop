@@ -78,8 +78,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CtrlAction.cs" />
     <Compile Include="Event\OperateChangedEventArgs.cs" />
+    <Compile Include="Event\ToolChangedEventArgs.cs" />
     <Compile Include="IForm.cs" />
     <Compile Include="IFormMain.cs" />
     <Compile Include="IFormManager.cs" />

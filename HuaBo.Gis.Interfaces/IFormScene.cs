@@ -11,8 +11,9 @@ namespace HuaBo.Gis.Interfaces
     {
         SceneControl SceneControl { get; set; }
 
-        OperateType OperateType { get; set; }
+        //OperateType OperateType { get; set; }
+        ITool CurrentTool { get; set; }
 
-        event EventHandler<OperateChangedEventArgs> OperateChanged;
+        event EventHandler<ToolChangedEventArgs> ToolChanged;
     }
 }

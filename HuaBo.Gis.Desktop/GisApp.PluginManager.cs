@@ -28,13 +28,13 @@ namespace HuaBo.Gis.Desktop
         [ImportMany]
         public Lazy<XtraUserControl, IDictionary<string, object>>[] m_controls { get; set; }
 
-        private CompositionContainer _container;
+        private CompositionContainer m_container;
         private bool Compose()
         {
-            _container = GetContainerFromDirectory();
+            m_container = GetContainerFromDirectory();
             try
             {
-                _container.ComposeParts(this);
+                m_container.ComposeParts(this);
             }
             catch (CompositionException compException)
             {

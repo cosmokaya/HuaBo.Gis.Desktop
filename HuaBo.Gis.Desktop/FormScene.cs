@@ -25,14 +25,22 @@ namespace HuaBo.Gis.Desktop
             m_sceneControl.Action = Action3D.Pan2;
             this.Controls.Add(m_sceneControl);
 
-            this.OperateChanged += (m, n) =>
+            this.ToolChanged += (m, n) =>
             {
-                if (n.NewOperateType == OperateType.Pan2)
+                if (n.OldTool != null)
+                {
+                    n.OldTool.UnRegisterEvent();
+                }
+                if (n.NewTool != null)
+                {
+                    n.NewTool.RegisterEvent();
+                }
+                if (n.NewTool == null)
                 {
                     m_sceneControl.Action = Action3D.Pan2;
                 }
             };
-            this.OperateType = OperateType.Pan2;
+            this.CurrentTool = null;
         }
 
         private SceneControl m_sceneControl;
@@ -48,17 +56,18 @@ namespace HuaBo.Gis.Desktop
             }
         }
 
-        public event EventHandler<OperateChangedEventArgs> OperateChanged;
-        private OperateType m_operateType;
-        public OperateType OperateType
+
+        public event EventHandler<ToolChangedEventArgs> ToolChanged;
+        private ITool m_currentTool;
+        public ITool CurrentTool
         {
-            get { return m_operateType; }
+            get { return m_currentTool; }
             set
             {
-                if (m_operateType != value)
+                if (m_currentTool != value)
                 {
-                    OperateChanged(this, new OperateChangedEventArgs(m_operateType, value));
-                    m_operateType = value;
+                    ToolChanged(this, new ToolChangedEventArgs(m_currentTool, value));
+                    m_currentTool = value;
                 }
             }
         }

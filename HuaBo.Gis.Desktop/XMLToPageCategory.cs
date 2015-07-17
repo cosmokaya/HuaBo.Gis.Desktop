@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using HuaBo.Gis.Interfaces;
 
 namespace HuaBo.Gis.Desktop
 {
@@ -44,7 +45,6 @@ namespace HuaBo.Gis.Desktop
             }
             return result;
         }
-
 
     }
 }

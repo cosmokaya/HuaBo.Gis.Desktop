@@ -15,12 +15,12 @@ namespace HuaBo.Gis.Desktop
     {
         private static DockManager m_dockManager;
 
-        public static void Parse(DockManager dockManager, XmlDocument doc)
+        public static void Parse(DockManager dockManager, XmlDocument doc, Dictionary<string, XtraUserControl> pluginCtrls)
         {
             m_dockManager = dockManager;
-            CreatePanels(doc.DocumentElement);
+            CreatePanels(doc.DocumentElement, pluginCtrls);
         }
-        static void CreatePanels(XmlElement rootElement)
+        static void CreatePanels(XmlElement rootElement, Dictionary<string, XtraUserControl> pluginCtrls)
         {
             foreach (XmlNode item in rootElement.ChildNodes)
             {
@@ -31,13 +31,13 @@ namespace HuaBo.Gis.Desktop
                     {
                         XMLDockPanel xmlPanel = XMLDockPanel.GetXMLDockPanel(panelNode);
                         //此时已经添加进去了
-                        DockPanel panel = XMLDockPanel.CreateDockPanel(xmlPanel, m_dockManager);
+                        DockPanel panel = XMLDockPanel.CreateDockPanel(xmlPanel, m_dockManager, pluginCtrls);
                     }
                 }
             }
         }
 
-        
+
 
 
     }

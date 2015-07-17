@@ -86,6 +86,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlAtest.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlAtest.Designer.cs">
+      <DependentUpon>ControlAtest.cs</DependentUpon>
+    </Compile>
     <Compile Include="ControlLayerManager.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -127,6 +133,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ControlAtest.resx">
+      <DependentUpon>ControlAtest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ControlLayerManager.resx">
       <DependentUpon>ControlLayerManager.cs</DependentUpon>
     </EmbeddedResource>

@@ -15,71 +15,55 @@ using DevExpress.XtraBars;
 namespace HuaBo.Gis.Scenes
 {
     [Export(typeof(CtrlAction))]
-    public class SceneSelectAction : CtrlAction
+    public class SceneSelectAction : CtrlAction, ITool
     {
-        private bool m_isRunning = false;
-        private IFormScene m_formScene;
+        public bool m_isRunning = false;
         public override void Run()
         {
-            if (GisApp.ActiveApp.FormMain.ActiveForm != null)
-            {
-                m_formScene = GisApp.ActiveApp.FormMain.ActiveForm as IFormScene;
-            }
-            if (!m_isRunning)
-            {
-                Register();
-            }
+            (Form as IFormScene).CurrentTool = this;
         }
 
-        private void Register()
+        public void RegisterEvent()
         {
             m_isRunning = true;
-            m_formScene.SceneControl.MouseClick += SceneControl_MouseClick;
-            m_formScene.OperateChanged += m_formScene_OperateChanged;
-            m_formScene.SceneControl.ObjectSelected += SceneControl_ObjectSelected;
-            m_formScene.OperateType = OperateType.Select;
+            (Form as IFormScene).SceneControl.MouseClick += SceneControl_MouseClick;
+            (Form as IFormScene).SceneControl.ObjectSelected += SceneControl_ObjectSelected;
+            (Form as IFormScene).SceneControl.Action = Action3D.Select;
         }
 
-        private void UnRegister()
+
+        public void UnRegisterEvent()
         {
             m_isRunning = false;
-            m_formScene.SceneControl.MouseClick -= SceneControl_MouseClick;
-            m_formScene.OperateChanged -= m_formScene_OperateChanged;
-            m_formScene.SceneControl.ObjectSelected -= SceneControl_ObjectSelected;
+            (Form as IFormScene).SceneControl.MouseClick -= SceneControl_MouseClick;
+            (Form as IFormScene).SceneControl.ObjectSelected -= SceneControl_ObjectSelected;
         }
+
+
+        public override CheckState Check()
+        {
+            if (Form != null && (Form as IFormScene).CurrentTool == this)
+            {
+                return CheckState.Checked;
+            }
+            return CheckState.Unchecked;
+        }
+
+
 
         void SceneControl_ObjectSelected(object sender, SuperMap.UI.ObjectSelectedEventArgs e)
         {
 
         }
 
-        void m_formScene_OperateChanged(object sender, OperateChangedEventArgs e)
-        {
-            if (e.NewOperateType == OperateType.Select)
-            {
-                m_formScene.SceneControl.Action = Action3D.Select;
-            }
-            else
-            {
-                UnRegister();
-            }
-        }
+
 
         void SceneControl_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
-                m_formScene.OperateType = OperateType.Pan2;
+                (GisApp.ActiveApp.FormMain.ActiveForm as IFormScene).CurrentTool = null;
             }
-        }
-
-        public override CheckState Check()
-        {
-            if (m_formScene != null && m_formScene.OperateType == OperateType.Select)
-            {
-                return CheckState.Checked;
-            }
-            return CheckState.Unchecked;
         }
     }
 }

@@ -66,7 +66,7 @@ namespace HuaBo.Gis.Desktop
             }
             DevExpress.LookAndFeel.UserLookAndFeel.Default.SetSkinStyle("Visual Studio 2013 Blue");
             DevExpress.UserSkins.BonusSkins.Register();
-
+            //保存每一个窗体的SelectPage
             this.DocumentManager.View.DocumentActivated += View_DocumentActivated;
             this.DocumentManager.View.DocumentDeactivated += View_DocumentDeactivated;
             this.DocumentManager.View.DocumentClosed += View_DocumentClosed;
@@ -94,15 +94,16 @@ namespace HuaBo.Gis.Desktop
         void View_DocumentDeactivated(object sender, DevExpress.XtraBars.Docking2010.Views.DocumentEventArgs e)
         {
             RibbonPageCategory category = e.Document.Form.Tag as RibbonPageCategory;
-            RibbonView.PageCategories.Remove(category);
+            if (category != null)
+                RibbonView.PageCategories.Remove(category);
         }
 
         void View_DocumentActivated(object sender, DevExpress.XtraBars.Docking2010.Views.DocumentEventArgs e)
         {
             RibbonPageCategory category = e.Document.Form.Tag as RibbonPageCategory;
-            RibbonView.PageCategories.Add(category);
-            if (category.Tag != null)
+            if (category != null && category.Tag != null && (category.Tag as RibbonPage) != null)
             {
+                RibbonView.PageCategories.Add(category);
                 RibbonView.SelectedPage = category.Tag as RibbonPage;
             }
         }
@@ -113,40 +114,27 @@ namespace HuaBo.Gis.Desktop
             //前面的隐藏
             //如果是窗体移除，则删除掉PageCategory    
             //PageCategory保存SelectPage，Form保存PageCategory
-            IForm form = e.Document.Form as IForm;
-            string formType = form.GetType() + "";
-            RibbonView.PageCategories.Clear();
-            //todo：这个地方可能有问题。是否通过GisApp.ActiveApp.Doc来传值值得考虑
-            RibbonPageCategory category = XMLToPageCategory.Create(formType, e.Document.Form.Text, GisApp.ActiveApp.Doc.DocumentElement);
-            e.Document.Form.Tag = category;
+            try
+            {
+                IForm form = e.Document.Form as IForm;
+                string formType = form.GetType() + "";
+                RibbonView.PageCategories.Clear();
+                //todo：这个地方可能有问题。是否通过GisApp.ActiveApp.Doc来传值值得考虑
+                RibbonPageCategory category = e.Document.Form.Tag as RibbonPageCategory;
 
-            RibbonView.PageCategories.Add(category);
-            RibbonView.SelectedPage = category.Pages[0];
+                RibbonView.PageCategories.Add(category);
+                RibbonView.SelectedPage = category.Pages[0];
+            }
+            catch (Exception ex)
+            {
+                GisApp.ActiveApp.Output.Warning(ex.Message);
+            }
         }
-
-
 
 
         private void barButtonItem2_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Form form = GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument.Form as Form;
-            if (form != null)
-            {
-                form.MdiParent = null;
-            }
-            //
-            //form.MdiParent = null;
         }
-
-        private void barButtonItem1_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            GisApp.ActiveApp.CreateFormScene();
-        }
-
-
-
-
-
 
 
 

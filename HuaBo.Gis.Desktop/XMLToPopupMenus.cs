@@ -13,6 +13,13 @@ namespace HuaBo.Gis.Desktop
 {
     class XMLToPopupMenus
     {
+        /// <summary>
+        /// 获取所有右键菜单
+        /// </summary>
+        /// <param name="ribbon"></param>
+        /// <param name="doc"></param>
+        /// <param name="ctrlActions"></param>
+        /// <returns></returns>
         public static Dictionary<string, PopupMenu> GetMenus(RibbonControl ribbon, XmlDocument doc, Dictionary<string, CtrlAction> ctrlActions)
         {
             Dictionary<string, PopupMenu> menus = new Dictionary<string, PopupMenu>();
@@ -22,22 +29,13 @@ namespace HuaBo.Gis.Desktop
                 {
                     foreach (XmlNode popupItem in popupMenus.ChildNodes)
                     {
-                        PopupMenu menu = XMLPopupMenu.CreatePopupMenu(popupItem);
+                        PopupMenu menu = XMLPopupMenu.CreatePopupMenu(popupItem, ribbon);
                         if (!menus.ContainsKey(menu.Name))
                         {
-                            menu.Ribbon = ribbon;
                             menus.Add(menu.Name, menu);
                             foreach (XmlNode item in popupItem.ChildNodes)
                             {
                                 XMLItem.CreateBarItem(item, ribbon, menu.ItemLinks, ctrlActions);
-                                //XMLItem xmlItem = XMLItem.GetXMLItem(item);
-                                //CtrlAction ctrlAction = null;
-                                //BarItem barItem = null;
-                                //if (ctrlActions.Keys.Contains(xmlItem.ItemBindClass))
-                                //{
-                                //    ctrlAction = ctrlActions[xmlItem.ItemBindClass];
-                                //    barItem = XMLItem.GetBarItem(xmlItem, ctrlAction, menu.ItemLinks);
-                                //}
 
                             }
                         }

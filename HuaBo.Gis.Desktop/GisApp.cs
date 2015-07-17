@@ -30,30 +30,21 @@ namespace HuaBo.Gis.Desktop
         //public IForm ActiveForm { get; set; }
         public Dictionary<string, PopupMenu> PopupMenus { get; set; }
         //控件也应该有这个集合,考虑- -
-        Dictionary<string, XtraUserControl> PluginControls { get; set; }
+        public Dictionary<string, XtraUserControl> PluginControls { get; set; }
 
         private XmlDocument m_doc;//界面的配置文件
-        public XmlDocument Doc
-        {
-            get { return m_doc; }
-            set { m_doc = value; }
-        }
         private string m_xmlPath = @"..\WorkEnvironment\Default2.xml";
         private string m_extensionDir = @"..\Plugins\";
         //保存加载的控件和CtrlAction
         private Dictionary<string, CtrlAction> m_ctrlActions = new Dictionary<string, CtrlAction>();
 
-
-        static GisApp()
-        {
-
-        }
         public GisApp()
         {
             Workspace = new Workspace();
             Output = new Output();
-            FormMain = new FormMain();
             PluginControls = new Dictionary<string, XtraUserControl>();
+            m_doc = new XmlDocument();
+            this.FormMain = new FormMain();
         }
 
         public void Run()
@@ -61,21 +52,22 @@ namespace HuaBo.Gis.Desktop
             //获取所有插件
             Compose();
             //解析插件
-            m_doc = new XmlDocument();
             m_doc.Load(m_xmlPath);
+            //1.先解析所有的BarItem
+            //2.获取所有的右键菜单
+            //3.获取所有的DockPanel控件
+            //原因：控件包含菜单，菜单包含BarItem
             foreach (var item in m_actions)
             {
                 m_ctrlActions.Add(item.Value.ToString(), item.Value);
             }
+            this.PopupMenus = XMLToPopupMenus.GetMenus(this.FormMain.RibbonView, m_doc, m_ctrlActions);
             foreach (var item in m_controls)
             {
-                PluginControls.Add(item.Value.Name, item.Value);
+                PluginControls.Add(item.Value.ToString(), item.Value);
             }
-
-            this.PopupMenus = XMLToPopupMenus.GetMenus(this.FormMain.RibbonView, m_doc, m_ctrlActions);
             XMLToPage.Parse(this.FormMain.RibbonView, m_doc, m_ctrlActions);
-            XMLToDockpanels.Parse(this.FormMain.DockManager, m_doc);
-
+            XMLToDockpanels.Parse(this.FormMain.DockManager, m_doc, PluginControls);
 
             //刷新主Page的状态属性
             RefreshTab();
@@ -161,9 +153,10 @@ namespace HuaBo.Gis.Desktop
                 resultName = sceneName;
             }
             formscene.Text = resultName;
+            //一定要在Mdi赋值前就要把所有属性设置好，因为设置这个属性就会触发documentadd事件。则这个Form的属性不全
+            formscene.Tag = XMLToPageCategory.Create((typeof(IFormScene)).ToString(), resultName, m_doc.DocumentElement);
             formscene.MdiParent = this.FormMain as Form;
             formscene.Show();
-
             (this.FormMain as Form).Cursor = Cursors.Default;
             return formscene;
         }
@@ -174,6 +167,11 @@ namespace HuaBo.Gis.Desktop
             (this.FormMain as Form).Cursor = Cursors.Default;
             return null;
         }
+
+        //public RibbonPageCategory CreatePageCategory(string formType, string categoryName)
+        //{
+        //    return XMLToPageCategory.Create(formType, categoryName, m_doc.DocumentElement);
+        //}
 
     }
 

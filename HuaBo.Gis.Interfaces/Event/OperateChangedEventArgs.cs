@@ -18,4 +18,6 @@ namespace HuaBo.Gis.Interfaces
             OldOperateType = oldOperateType;
         }
     }
+
+
 }

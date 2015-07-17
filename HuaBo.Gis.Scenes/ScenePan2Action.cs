@@ -17,15 +17,15 @@ namespace HuaBo.Gis.Scenes
         private IFormScene m_formScene;
         public override void Run()
         {
-            if (GisApp.ActiveApp.FormMain.ActiveForm != null)
+            if (Form != null)
             {
-                (GisApp.ActiveApp.FormMain.ActiveForm as IFormScene).OperateType = OperateType.Pan2;
+                (Form as IFormScene).CurrentTool = null;
             }
         }
 
         public override CheckState Check()
         {
-            if ((GisApp.ActiveApp.FormMain.ActiveForm as IFormScene).OperateType == OperateType.Pan2)
+            if (Form != null && (Form as IFormScene).CurrentTool == null)
             {
                 return CheckState.Checked;
             }

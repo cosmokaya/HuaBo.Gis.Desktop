@@ -85,6 +85,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Class1.cs" />
+    <Compile Include="CtrlAction.cs" />
     <Compile Include="FormScene.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -9,7 +9,9 @@ using HuaBo.Gis.Interfaces;
 
 namespace HuaBo.Gis.Plugins
 {
-
+    /// <summary>
+    /// 创建空白的窗体
+    /// </summary>
     [Export(typeof(CtrlAction))]
     public class NewSceneAction : CtrlAction
     {

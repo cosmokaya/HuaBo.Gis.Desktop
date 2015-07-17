@@ -13,62 +13,46 @@ namespace HuaBo.Gis.Scenes
 {
 
     [Export(typeof(CtrlAction))]
-    class ScenePanAction : CtrlAction
+    class ScenePanAction : CtrlAction, ITool
     {
-        private bool m_isRunning = false;
-        private IFormScene m_formScene;
+
+        public bool m_isRunning = false;
         public override void Run()
         {
-            if (GisApp.ActiveApp.FormMain.ActiveForm != null)
-            {
-                m_formScene = GisApp.ActiveApp.FormMain.ActiveForm as IFormScene;
-            }
-            if (!m_isRunning)
-            {
-                Register();
-            }
+            (Form as IFormScene).CurrentTool = this;
         }
 
-        private void Register()
+        public void RegisterEvent()
         {
             m_isRunning = true;
-            m_formScene.OperateChanged += m_formScene_OperateChanged;
-            m_formScene.SceneControl.ObjectSelected += SceneControl_ObjectSelected;
-            m_formScene.OperateType = OperateType.Pan;
+            (Form as IFormScene).SceneControl.Action = Action3D.Pan;
+            (Form as IFormScene).SceneControl.ObjectSelected += SceneControl_ObjectSelected;
         }
 
-        private void UnRegister()
+        void SceneControl_ObjectSelected(object sender, ObjectSelectedEventArgs e)
+        {
+
+        }
+
+        public void UnRegisterEvent()
         {
             m_isRunning = false;
-            m_formScene.OperateChanged -= m_formScene_OperateChanged;
-            m_formScene.SceneControl.ObjectSelected -= SceneControl_ObjectSelected;
+            (Form as IFormScene).SceneControl.ObjectSelected -= SceneControl_ObjectSelected;
         }
 
-        void SceneControl_ObjectSelected(object sender, SuperMap.UI.ObjectSelectedEventArgs e)
-        {
 
-        }
-
-        void m_formScene_OperateChanged(object sender, OperateChangedEventArgs e)
-        {
-            if (e.NewOperateType == OperateType.Pan)
-            {
-                m_formScene.SceneControl.Action = Action3D.Pan;
-            }
-            else
-            {
-                UnRegister();
-            }
-        }
 
 
         public override CheckState Check()
         {
-            if (m_formScene != null && m_formScene.OperateType == OperateType.Pan)
+            if (Form != null && (Form as IFormScene).CurrentTool == this)
             {
                 return CheckState.Checked;
             }
             return CheckState.Unchecked;
         }
+
+
+
     }
 }

@@ -75,7 +75,7 @@ namespace HuaBo.Gis.Desktop.XML
         }
 
 
-        public static DockPanel CreateDockPanel(XMLDockPanel xmlItem, DockManager dockManager)
+        public static DockPanel CreateDockPanel(XMLDockPanel xmlItem, DockManager dockManager, Dictionary<string, XtraUserControl> pluginCtrls)
         {
             DockPanel dockPanel = null;
             dockPanel = AddDockPanel(GetDockStyleFormXml(xmlItem.ItemDockStyle), dockManager);
@@ -97,30 +97,16 @@ namespace HuaBo.Gis.Desktop.XML
             dockPanel.Name = xmlItem.ItemBindControl;
             dockPanel.Text = xmlItem.ItemText;
             dockPanel.Visibility = xmlItem.ItemVisible == "true" ? DockVisibility.Visible : DockVisibility.Hidden;
-            //dockPanel.Tag = new { Form = xmlItem.ItemForm, Dll = xmlItem.ItemDllPath, Control = xmlItem.ItemBindControl };
 
-            dockPanel.ControlContainer.Controls.Add(CreateControl(xmlItem.ItemBindControl, xmlItem.ItemDllPath));
+            if (pluginCtrls.ContainsKey(xmlItem.ItemBindControl))
+            {
+                Control ctrl = pluginCtrls[xmlItem.ItemBindControl];
+                ctrl.Dock = DockStyle.Fill;
+                dockPanel.ControlContainer.Controls.Add(ctrl);
+            }
             return dockPanel;
         }
 
-        //todo:这个还是要自动解析的，因为所有控件都是没有参数的构造函数。以后在考虑
-        internal static XtraUserControl CreateControl(string controlName, string dllPath, object data = null)
-        {
-            System.Reflection.Assembly asmb = System.Reflection.Assembly.LoadFrom(dllPath);
-            Type t = asmb.GetType(controlName);
-            XtraUserControl result = null;
-            if (data == null)
-            {
-                //result = Activator.CreateInstance<XtraUserControl>();
-                result = Activator.CreateInstance(t) as XtraUserControl;
-            }
-            else
-            {
-                result = Activator.CreateInstance(t, new object[] { data }) as XtraUserControl;
-            }
-            result.Dock = DockStyle.Fill;
-            return result;
-        }
 
 
         public static DockPanel AddDockPanel(DockingStyle dockingStyle, DockManager dockManager)
