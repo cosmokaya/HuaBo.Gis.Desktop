@@ -106,6 +106,8 @@
     </Compile>
     <Compile Include="FullScreenAction.cs" />
     <Compile Include="LegendControlAction.cs" />
+    <Compile Include="NewSceneAction.cs" />
+    <Compile Include="NewSceneWindowAction.cs" />
     <Compile Include="OpenWorkspaceFileAction.cs" />
     <Compile Include="OpenWorkspaceOracleAction.cs" />
     <Compile Include="OpenWorkspaceSQLAction.cs" />

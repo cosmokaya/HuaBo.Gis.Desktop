@@ -85,6 +85,7 @@
     <Compile Include="IFormManager.cs" />
     <Compile Include="IFormMap.cs" />
     <Compile Include="IFormScene.cs" />
+    <Compile Include="ITool.cs" />
     <Compile Include="OperateType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

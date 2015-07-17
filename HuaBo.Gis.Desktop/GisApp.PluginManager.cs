@@ -24,9 +24,9 @@ namespace HuaBo.Gis.Desktop
         }
 
         [ImportMany]
-        public Lazy<CtrlAction, IDictionary<string, object>>[] Actions { get; set; }
+        public Lazy<CtrlAction, IDictionary<string, object>>[] m_actions { get; set; }
         [ImportMany]
-        public Lazy<XtraUserControl, IDictionary<string, object>>[] Controls { get; set; }
+        public Lazy<XtraUserControl, IDictionary<string, object>>[] m_controls { get; set; }
 
         private CompositionContainer _container;
         private bool Compose()

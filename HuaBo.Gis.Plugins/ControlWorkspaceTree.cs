@@ -33,10 +33,23 @@ namespace HuaBo.Gis.Plugins
 
         void workspaceTree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (e.Button == MouseButtons.Right && GisApp.ActiveApp.SelectNode.NodeType == WorkspaceTreeNodeDataType.Workspace)
+            if (e.Button == MouseButtons.Right)
             {
-                Point pt = this.PointToScreen(new Point(e.X, e.Y));
-                GisApp.ActiveApp.FormMain.PopupMenus["HuaBo.Gis.Test"].ShowPopup(pt);
+                if (GisApp.ActiveApp.SelectNode.NodeType == WorkspaceTreeNodeDataType.Workspace)
+                {
+                    Point pt = this.PointToScreen(new Point(e.X, e.Y));
+                    GisApp.ActiveApp.PopupMenus["HuaBo.Gis.ContextWorkspace"].ShowPopup(pt);
+                }
+                else if (GisApp.ActiveApp.SelectNode.NodeType == WorkspaceTreeNodeDataType.Scenes)
+                {
+                    Point pt = this.PointToScreen(new Point(e.X, e.Y));
+                    GisApp.ActiveApp.PopupMenus["HuaBo.Gis.ContextScenes"].ShowPopup(pt);
+                }
+                else if (GisApp.ActiveApp.SelectNode.NodeType == WorkspaceTreeNodeDataType.SceneName)
+                {
+                    Point pt = this.PointToScreen(new Point(e.X, e.Y));
+                    GisApp.ActiveApp.PopupMenus["HuaBo.Gis.ContextScene"].ShowPopup(pt);
+                }
             }
         }
 
@@ -57,12 +70,7 @@ namespace HuaBo.Gis.Plugins
                     //打开场景，假如说已经打开，则激活
                     //否则，直接新建这个场景
                     var document = GisApp.ActiveApp.FormMain.DocumentManager.View.Documents.Where(s =>
-                        {
-                            bool result = false;
-                            IFormScene form = s.Form as IFormScene;
-                            result = s.Caption == sceneName && form != null;
-                            return result;
-                        }).FirstOrDefault();
+                        s.Caption == sceneName && (s.Form as IFormScene) != null).FirstOrDefault();
 
                     IFormScene formScene = null;
                     if (document != null)

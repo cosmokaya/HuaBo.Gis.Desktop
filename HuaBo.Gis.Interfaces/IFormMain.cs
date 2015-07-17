@@ -17,10 +17,10 @@ namespace HuaBo.Gis.Interfaces
 
         DevExpress.XtraBars.Docking.DockManager DockManager { get; }
 
-        Dictionary<string, PopupMenu> PopupMenus { get; set; }
+        //Dictionary<string, PopupMenu> PopupMenus { get; set; }
 
         //为了方便，不然太长了
-        IForm ActiveForm { get;  }
+        IForm ActiveForm { get; }
 
 
     }

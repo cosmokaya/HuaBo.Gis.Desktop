@@ -78,6 +78,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlSceneSunManage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlSceneSunManage.Designer.cs">
+      <DependentUpon>ControlSceneSunManage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlSunManage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlSunManage.Designer.cs">
+      <DependentUpon>ControlSunManage.cs</DependentUpon>
+    </Compile>
     <Compile Include="ScenePan2Action.cs" />
     <Compile Include="SceneRefreshAction.cs" />
     <Compile Include="SceneSelectAction.cs" />
@@ -97,6 +109,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ControlSceneSunManage.resx">
+      <DependentUpon>ControlSceneSunManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlSunManage.resx">
+      <DependentUpon>ControlSunManage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

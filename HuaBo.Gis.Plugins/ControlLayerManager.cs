@@ -11,9 +11,11 @@ using DevExpress.XtraEditors;
 using SuperMap.UI;
 using HuaBo.Gis.Interfaces;
 using HuaBo.Gis.Desktop;
+using System.ComponentModel.Composition;
 
 namespace HuaBo.Gis.Plugins
 {
+    [Export(typeof(XtraUserControl))]
     public partial class ControlLayerManager : DevExpress.XtraEditors.XtraUserControl
     {
         private Dictionary<IForm, LayersControl> m_layer3DsTrees = null;
@@ -42,10 +44,10 @@ namespace HuaBo.Gis.Plugins
         {
             if (this.Visible)
             {
-                IForm form=null;
-                if(GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument!=null)
+                IForm form = null;
+                if (GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument != null)
                 {
-                    form=GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument.Form as IForm;
+                    form = GisApp.ActiveApp.FormMain.DocumentManager.View.ActiveDocument.Form as IForm;
                 }
                 this.Controls.Clear();
                 if (form == null) return;
