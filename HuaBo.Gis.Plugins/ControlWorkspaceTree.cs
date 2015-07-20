@@ -21,6 +21,7 @@ namespace HuaBo.Gis.Plugins
     public partial class ControlWorkspaceTree : DevExpress.XtraEditors.XtraUserControl
     {
         private PopupMenu m_workspaceMenu = null;
+        private PopupMenu m_datasourcesMenu = null;
         private PopupMenu m_scenesMenu = null;
         private PopupMenu m_sceneNameMenu = null;
 
@@ -42,6 +43,7 @@ namespace HuaBo.Gis.Plugins
             m_workspaceMenu = GisApp.ActiveApp.PopupMenus.ContainsKey("HuaBo.Gis.ContextWorkspace") ? GisApp.ActiveApp.PopupMenus["HuaBo.Gis.ContextWorkspace"] : (new PopupMenu());
             m_scenesMenu = GisApp.ActiveApp.PopupMenus.ContainsKey("HuaBo.Gis.ContextScenes") ? GisApp.ActiveApp.PopupMenus["HuaBo.Gis.ContextScenes"] : (new PopupMenu());
             m_sceneNameMenu = GisApp.ActiveApp.PopupMenus.ContainsKey("HuaBo.Gis.ContextScene") ? GisApp.ActiveApp.PopupMenus["HuaBo.Gis.ContextScene"] : (new PopupMenu());
+            m_datasourcesMenu = GisApp.ActiveApp.PopupMenus.ContainsKey("HuaBo.Gis.ContextDatasources") ? GisApp.ActiveApp.PopupMenus["HuaBo.Gis.ContextDatasources"] : (new PopupMenu());
         }
 
         void workspaceTree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -62,6 +64,11 @@ namespace HuaBo.Gis.Plugins
                 {
                     Point pt = this.PointToScreen(new Point(e.X, e.Y));
                     m_sceneNameMenu.ShowPopup(pt);
+                }
+                else if (GisApp.ActiveApp.SelectNode.NodeType == WorkspaceTreeNodeDataType.Datasources)
+                {
+                    Point pt = this.PointToScreen(new Point(e.X, e.Y));
+                    m_datasourcesMenu.ShowPopup(pt);
                 }
             }
         }

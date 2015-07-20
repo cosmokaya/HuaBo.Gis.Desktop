@@ -57,6 +57,10 @@
     <Reference Include="DevExpress.XtraEditors.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraPrinting.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraRichEdit.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="SuperMap.Analyst.SpatialAnalyst">
+      <HintPath>..\..\Bin\SuperMap.Analyst.SpatialAnalyst.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="SuperMap.Data">
       <HintPath>..\..\Bin\SuperMap.Data.dll</HintPath>
       <Private>False</Private>
@@ -86,6 +90,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClipRasterAction.cs" />
     <Compile Include="ControlAtest.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -110,10 +115,15 @@
     <Compile Include="ControlWorkspaceTree.Designer.cs">
       <DependentUpon>ControlWorkspaceTree.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormRasterClip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormRasterClip.Designer.cs" />
     <Compile Include="FullScreenAction.cs" />
     <Compile Include="LegendControlAction.cs" />
     <Compile Include="NewSceneAction.cs" />
     <Compile Include="NewSceneWindowAction.cs" />
+    <Compile Include="OpenDatasourceFileAction.cs" />
     <Compile Include="OpenWorkspaceFileAction.cs" />
     <Compile Include="OpenWorkspaceOracleAction.cs" />
     <Compile Include="OpenWorkspaceSQLAction.cs" />
@@ -145,6 +155,7 @@
     <EmbeddedResource Include="ControlWorkspaceTree.resx">
       <DependentUpon>ControlWorkspaceTree.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormRasterClip.resx" />
     <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

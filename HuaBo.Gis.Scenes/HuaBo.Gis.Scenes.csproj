@@ -90,12 +90,22 @@
     <Compile Include="ControlSunManage.Designer.cs">
       <DependentUpon>ControlSunManage.cs</DependentUpon>
     </Compile>
+    <Compile Include="SceneAltitudeAction.cs" />
+    <Compile Include="SceneAreaAction.cs" />
+    <Compile Include="SceneAreaUnitAction.cs" />
+    <Compile Include="SceneDistanceAction.cs" />
+    <Compile Include="SceneDistanceUnitAction.cs" />
+    <Compile Include="SceneMeasureAction.cs" />
+    <Compile Include="SceneMeasureClearAction.cs" />
     <Compile Include="ScenePan2Action.cs" />
     <Compile Include="SceneRefreshAction.cs" />
     <Compile Include="SceneSelectAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScenePanAction.cs" />
+    <Compile Include="SceneSunManagerAction.cs" />
     <Compile Include="SceneSunVisibleAction.cs" />
+    <Compile Include="SceneTerrainAreaAction.cs" />
+    <Compile Include="SceneTerrainDistanceAction.cs" />
     <Compile Include="SceneViewEntireAction.cs" />
   </ItemGroup>
   <ItemGroup>

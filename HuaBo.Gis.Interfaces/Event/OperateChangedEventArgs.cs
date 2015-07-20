@@ -9,14 +9,14 @@ namespace HuaBo.Gis.Interfaces
 {
     public class OperateChangedEventArgs : EventArgs
     {
-        public OperateType NewOperateType;
-        public OperateType OldOperateType;
+        //public OperateType NewOperateType;
+        //public OperateType OldOperateType;
 
-        public OperateChangedEventArgs(OperateType oldOperateType, OperateType newOperateType)
-        {
-            NewOperateType = newOperateType;
-            OldOperateType = oldOperateType;
-        }
+        //public OperateChangedEventArgs(OperateType oldOperateType, OperateType newOperateType)
+        //{
+        //    NewOperateType = newOperateType;
+        //    OldOperateType = oldOperateType;
+        //}
     }
 
 

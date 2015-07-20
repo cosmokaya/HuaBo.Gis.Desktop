@@ -12,7 +12,7 @@ using SuperMap.UI;
 namespace HuaBo.Gis.Scenes
 {
     [Export(typeof(CtrlAction))]
-    class ScenePan2Action : CtrlAction
+    public class ScenePan2Action : CtrlAction
     {
         private IFormScene m_formScene;
         public override void Run()

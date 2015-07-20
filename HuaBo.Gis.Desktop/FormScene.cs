@@ -34,6 +34,7 @@ namespace HuaBo.Gis.Desktop
                 if (n.NewTool != null)
                 {
                     n.NewTool.RegisterEvent();
+                    m_sceneControl.Action = n.NewTool.Action;
                 }
                 if (n.NewTool == null)
                 {

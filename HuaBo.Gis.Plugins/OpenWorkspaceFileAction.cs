@@ -16,10 +16,9 @@ namespace HuaBo.Gis.Plugins
     {
         public override void Run()
         {
-            String itemType = BarItem.GetType().ToString();
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "打开工作控件";
-            openFileDialog.Filter = "工作控件|(*.sxw;*.sxwu;*.smw;*.smwu;)";
+            openFileDialog.Title = "打开工作空间";
+            openFileDialog.Filter = "工作空间|(*.sxw;*.sxwu;*.smw;*.smwu;)";
             openFileDialog.Multiselect = false;
             openFileDialog.CheckFileExists = true;
 

@@ -11,45 +11,37 @@ using SuperMap.UI;
 
 namespace HuaBo.Gis.Scenes
 {
-
+    //空间测量面积
     [Export(typeof(CtrlAction))]
-    public class ScenePanAction : CtrlAction, ITool
+    public class SceneAreaAction : SceneMeasureAction, ITool
     {
+        private bool m_isRunning = false;
         public bool IsRunning
         {
             get { return m_isRunning; }
         }
 
-        public Action3D Action
+        public SuperMap.UI.Action3D Action
         {
-            get { return Action3D.Pan; }
-        }
-
-        public bool m_isRunning = false;
-        public override void Run()
-        {
-            (Form as IFormScene).CurrentTool = this;
+            get { return SuperMap.UI.Action3D.MeasureArea; }
         }
 
         public void RegisterEvent()
-        {
-            (Form as IFormScene).SceneControl.ObjectSelected += SceneControl_ObjectSelected;
-        }
-
-        void SceneControl_ObjectSelected(object sender, ObjectSelectedEventArgs e)
         {
 
         }
 
         public void UnRegisterEvent()
         {
-            (Form as IFormScene).SceneControl.ObjectSelected -= SceneControl_ObjectSelected;
+
         }
 
+        public override void Run()
+        {
+            (Form as IFormScene).CurrentTool = this;
+        }
 
-
-
-        public override CheckState Check()
+        public override System.Windows.Forms.CheckState Check()
         {
             if (Form != null && (Form as IFormScene).CurrentTool == this)
             {
@@ -57,10 +49,5 @@ namespace HuaBo.Gis.Scenes
             }
             return CheckState.Unchecked;
         }
-
-
-
-
-
     }
 }

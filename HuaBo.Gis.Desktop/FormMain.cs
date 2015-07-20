@@ -132,8 +132,14 @@ namespace HuaBo.Gis.Desktop
         }
 
 
+        private void barButtonItem1_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            this.Icon.ToBitmap().Save("D:\\1.ico");
+        }
+
         private void barButtonItem2_ItemClick(object sender, ItemClickEventArgs e)
         {
+            
         }
 
 

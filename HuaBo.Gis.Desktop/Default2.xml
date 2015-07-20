@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plugin bitmap="aaa">
+  <ribbon>
+    <category text="测试" form="HuaBo.Gis.Interfaces.IFormScene">
+      <page text="场景" visible="true">
+        <group text="浏览" visible="true">
+          <dropdown text="选择漫游" type="DevExpress.XtraBars.BarButtonItem" btnType="dropdown" class="HuaBo.Gis.Scenes.ScenePan2Action" checked="" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/Pan.png" style="large" visible="true" begin="false">
+            <button text="选择" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Scenes.SceneSelectAction" checked="false" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/Pan2.png"  style="normal"></button>
+            <button text="选择漫游" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Scenes.ScenePanAction" checked="false" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/Pan.png" style="normal"></button>
+            <button text="漫游" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Scenes.ScenePan2Action" checked="true" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/Select.png" style="normal">
+            </button>
+          </dropdown>
+          <button text="刷新" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Scenes.SceneRefreshAction" checked="" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/Refresh.png" style="normal" begin="true"></button>
+          <button text="全球" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Scenes.SceneViewEntireAction" checked="" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/ViewEntire.png" style="normal">
+          </button>
+          <button text="可见" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Scenes.SceneSunVisibleAction" checked="true" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/SunVisible.png" style="normal" begin="true">
+          </button>
+          <button text="轨迹" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Scenes.SceneSunManagerAction" checked="false" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/SunManager.png" style="normal">
+          </button>
+        </group>
+        <group text="量算" visible="true">
+          <dropdown text="距离" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Scenes.SceneDistanceAction" checked="" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/Distance.png" style="large" visible="true">
+            <button text="空间距离" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Scenes.SceneDistanceAction" checked="false" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/XXXX.png" style="normal"/>
+            <button text="依地距离" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Scenes.SceneTerrainDistanceAction" checked="false" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/XXXX.png" style="normal"/>
+          </dropdown>
+          <dropdown text="面积" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Scenes.SceneAreaAction" checked="" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/Area.png" style="large" visible="true">
+            <button text="空间距离" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Scenes.SceneAreaAction" checked="false" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/XXXX.png" style="normal"/>
+            <button text="依地距离" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Scenes.SceneTerrainAreaAction" checked="false" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/XXXX.png" style="normal"/>
+          </dropdown>
+          <button text="高程" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Scenes.SceneAltitudeAction" checked="false" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/Altitude.png" style="large" begin=""/>
+          <button text="清除" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Scenes.SceneMeasureClearAction" checked="" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/MeasureClear.png" style="large" begin="">
+          </button>
+        </group>
+        <group text="属性" visible="true">
+          <button text="图层属性" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.SceneLayerProperty" checked="false" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/SceneLayerProperty.png" style="large">
+          </button>
+          <button text="场景属性" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.SceneProperty" checked="false" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/SceneProperty.png" style="large">
+          </button>
+        </group>
+        <group text="场景设置" visible="true">
+          <button text="输出图片" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.SceneExportToBitmap" checked="" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/SceneBitmap.jpg" style="large">
+          </button>
+          <button text="热点设置" type="DevExpress.XtraBars.BarButtonItem" class="" checked="" dllpath="" image="../Images/Scene/SceneHotSpot.jpg" style="large">
+          </button>
+          <button text="三维标注" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.SceneLabel3D" checked="false" dllpath="../Plugins/Plugins.Scene.dll" image="../Images/Scene/SceneLabel3D.jpg" style="large">
+          </button>
+        </group>
+      </page>
+      <page text="风格设置" visible="true">
+        <group text="点风格" visible="true">
+        </group>
+        <group text="线风格" visible="true">
+        </group>
+        <group text="填充风格" visible="true">
+        </group>
+        <group text="拉伸设置" visible="true">
+        </group>
+      </page>
+      <page text="飞行管理" visible="true">
+        <group text="文件管理" visible="true">
+        </group>
+        <group text="飞行路线" visible="true">
+        </group>
+        <group text="选项" visible="true">
+        </group>
+        <group text="飞行" visible="true">
+        </group>
+      </page>
+      <page text="三维分析" visible="true">
+        <group text="空间分析" visible="true">
+        </group>
+      </page>
+    </category>
+    <page text="开始" visible="true">
+      <group text="工作空间" visible="true">
+        <dropdown text="打开" type="DevExpress.XtraBars.BarButtonItem" btnType="dropdown" class="HuaBo.Gis.Plugins.OpenWorkspaceFileAction" checked="" dllpath="../Plugins/Plugins.Start.dll" image="../Images/Start/Open.png" style="large" visible="true" begin="false">
+          <button text="文件型..." type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspaceFileAction" checked="" dllpath="../Plugins/Plugins.Start.dll" image="../Images/Start/File.png"></button>
+          <button text="Oracle..." type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspaceOracleAction" checked="" dllpath="../Plugins/Plugins.Start.dll" image="../Images/Start/Oracle.png"></button>
+          <button text="SQL Server..." type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspaceSQLAction" checked="" dllpath="../Plugins/Plugins.Start.dll" image="../Images/Start/SQLServer.png">
+          </button>
+        </dropdown>
+        <button text="保存" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.WorkspaceSaveAction" checked="" dllpath="../Plugins/Plugins.Start.dll" image="../Images/Start/Save16.png"/>
+        <button text="另存" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.WorkspaceSaveAsFile" checked="" dllpath="../Plugins/Plugins.Start.dll" image="../Images/Start/SaveAs16.png"/>
+      </group>
+    </page>
+    <page text="视图" visible="true">
+      <group text="窗口">
+        <comboedit text="查询" type="DevExpress.XtraBars.BarEditItem" class="" checked="" dllpath="" image="" style="" visible="">
+        </comboedit>
+        <button text="全屏" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.FullScreenAction" checked="" dllpath="../Plugins/Plugins.Start.dll" image="../Images/Views/FullScreen.large.png" style="large"/>
+        <button text="数据分割" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.ClipRasterAction" checked="" dllpath="../Plugins/Plugins.Start.dll" image="../Images/Views/FullScreen.large.png" style="large"/>
+      </group>
+      <group text="视图">
+        <check text="工作空间管理器" type="DevExpress.XtraBars.BarCheckItem" class="HuaBo.Gis.Plugins.WorkspaceManagerAction" checked="true" dllpath="../Plugins/Plugins.Views.dll" image="" style="normal" visible="">
+        </check>
+        <check text="图层管理器" type="DevExpress.XtraBars.BarCheckItem" class="HuaBo.Gis.Plugins.LegendControlAction" checked="true" dllpath="../Plugins/Plugins.Views.dll" image="" style="normal" visible="">
+        </check>
+        <check text="输出窗口" type="DevExpress.XtraBars.BarCheckItem" class="HuaBo.Gis.Plugins.OutputAction" checked="true" dllpath="../Plugins/Plugins.Views.dll" image="" style="normal" visible="">
+        </check>
+      </group>
+      <group text="主题">
+        <skin text="皮肤" type="DevExpress.XtraBars.SkinRibbonGalleryBarItem" class="HuaBo.Gis.Plugins.ViewStyle" checked="" dllpath="../Plugins/Plugins.Views.dll" image="" style="" visible="">
+        </skin>
+      </group>
+    </page>
+  </ribbon>
+  <dockpanels>
+    <dockpanel text="工作空间管理器" style="left" visible="true" form=""  dllpath="../Plugins/HuaBo.Gis.Plugins.dll" control="HuaBo.Gis.Plugins.ControlWorkspaceTree" float="0,0" size="300,800"></dockpanel>
+    <dockpanel text="图层管理器" style="left" visible="true" form="IFormScene"  dllpath="../Plugins/HuaBo.Gis.Plugins.dll" control="HuaBo.Gis.Plugins.ControlLayerManager" float="0,0" size="300,800"></dockpanel>
+    <dockpanel text="输出窗口" style="bottom" visible="true" form=""  dllpath="../Plugins/HuaBo.Gis.Plugins.dll" control="HuaBo.Gis.Plugins.ControlOutput" float="0,0" size="300,800"></dockpanel>
+    <dockpanel text="三维太阳特效管理" style="right" visible="false" form=""  dllpath="../Plugins/HuaBo.Gis.Plugins.dll" control="HuaBo.Gis.Scenes.ControlSceneSunManage" float="0,0" size="300,800"></dockpanel>
+  </dockpanels>
+  <popupmenus>
+    <popupmenu name="HuaBo.Gis.ContextWorkspace">
+      <button text="打开文件型工作空间..." type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspaceFileAction" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""/>
+      <button text="打开Oracle工作空间..." type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspaceOracleAction" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""/>
+      <button text="打开SQL Server型工作空间..." type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspaceSQLAction" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""/>
+      <button text="保存工作空间" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.WorkspaceSaveAction" checked="" dllpath="../Plugins/Plugins.Start.dll" image="" begin="true"/>
+      <button text="另存工作空间..." type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspaceSQL" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""/>
+      <button text="关闭工作空间" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspaceSQL" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""/>
+      <button text="删除工作空间" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspaceSQL" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""/>
+      <button text="发布服务" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspaceSQL" checked="" dllpath="../Plugins/Plugins.Start.dll" image="" begin="true"/>
+      <button text="发布地图" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspaceSQL" checked="" dllpath="../Plugins/Plugins.Start.dll" image="" />
+      <button text="打开所在文件夹" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspaceSQL" checked="" dllpath="../Plugins/Plugins.Start.dll" image="" begin="true"/>
+      <button text="属性" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspaceSQL" checked="" dllpath="../Plugins/Plugins.Start.dll" image="" />
+    </popupmenu>
+    <popupmenu name="HuaBo.Gis.ContextDatasources">
+      <button text="打开文件型数据源..." type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenDatasourceFileAction" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""/>
+    </popupmenu>
+    <popupmenu name="HuaBo.Gis.ContextScenes">
+      <button text="新建球面场景" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.NewSceneAction" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""/>
+      <button text="新建平面场景" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspaceOracle" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""/>
+      <button text="加载场景模板..." type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspace" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""/>
+      <button text="打开 iServer 服务场景..." type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.WorkspaceSave" checked="" dllpath="../Plugins/Plugins.Start.dll" image="" begin="true"/>
+      <button text="按名称排序" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspace" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""  begin="true"/>
+    </popupmenu>
+    <popupmenu name="HuaBo.Gis.ContextScene">
+      <button text="打开场景" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.NewSceneWindowAction" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""/>
+      <button text="场景另存为..." type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspaceOracle" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""/>
+      <button text="发布场景..." type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspace" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""/>
+      <button text="输出场景模板..." type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.WorkspaceSave" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""/>
+      <button text="生成场景缓存..." type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspace" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""  begin="true"/>
+      <button text="删除场景" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.NewSceneAction" checked="" dllpath="../Plugins/Plugins.Start.dll" image="" begin="true"/>
+      <button text="重命名" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.OpenWorkspace" checked="" dllpath="../Plugins/Plugins.Start.dll" image=""/>
+      <button text="性能诊断" type="DevExpress.XtraBars.BarButtonItem" class="HuaBo.Gis.Plugins.WorkspaceSave" checked="" dllpath="../Plugins/Plugins.Start.dll" image="" begin="true"/>
+    </popupmenu>
+  </popupmenus>
+</plugin>
