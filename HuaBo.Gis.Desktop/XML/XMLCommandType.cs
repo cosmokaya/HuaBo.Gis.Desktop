@@ -9,7 +9,7 @@ namespace HuaBo.Gis.Desktop.XML
     /// <summary>
     /// 其实完全可以根据接口转换来确定是啥类型
     /// </summary>
-    public class XMLItemName
+    public class XMLCommandType
     {
         //普通的Item(但是包括Check的Button)
         public const string Button = "button";

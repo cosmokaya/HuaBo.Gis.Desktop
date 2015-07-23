@@ -31,12 +31,13 @@ namespace HuaBo.Gis.Desktop
         public Dictionary<string, PopupMenu> PopupMenus { get; set; }
         //控件也应该有这个集合,考虑- -
         public Dictionary<string, XtraUserControl> PluginControls { get; set; }
+        //保存加载的控件和CtrlAction
+        private Dictionary<string, CtrlAction> CtrlActions { get; set; }
 
         private XmlDocument m_doc;//界面的配置文件
         private string m_xmlPath = @"..\WorkEnvironment\Default2.xml";
         private string m_extensionDir = @"..\Plugins\";
-        //保存加载的控件和CtrlAction
-        private Dictionary<string, CtrlAction> m_ctrlActions = new Dictionary<string, CtrlAction>();
+
 
         public GisApp()
         {
@@ -45,6 +46,7 @@ namespace HuaBo.Gis.Desktop
             PluginControls = new Dictionary<string, XtraUserControl>();
             m_doc = new XmlDocument();
             this.FormMain = new FormMain();
+            CtrlActions = new Dictionary<string, CtrlAction>();
         }
 
         public void Run()
@@ -57,16 +59,16 @@ namespace HuaBo.Gis.Desktop
             //2.获取所有的右键菜单
             //3.获取所有的DockPanel控件
             //原因：控件包含菜单，菜单包含BarItem
-            foreach (var item in m_actions)
+            foreach (var item in m_ctrlActions)
             {
-                m_ctrlActions.Add(item.Value.ToString(), item.Value);
+                CtrlActions.Add(item.Value.ToString(), item.Value);
             }
-            this.PopupMenus = XMLToPopupMenus.GetMenus(this.FormMain.RibbonView, m_doc, m_ctrlActions);
+            this.PopupMenus = XMLToPopupMenus.GetPopupMenus(this.FormMain.RibbonView, m_doc, CtrlActions);
             foreach (var item in m_controls)
             {
                 PluginControls.Add(item.Value.ToString(), item.Value);
             }
-            XMLToPage.Parse(this.FormMain.RibbonView, m_doc, m_ctrlActions);
+            XMLToPage.Parse(this.FormMain.RibbonView, m_doc, CtrlActions);
             XMLToDockpanels.Parse(this.FormMain.DockManager, m_doc, PluginControls);
 
             //刷新主Page的状态属性

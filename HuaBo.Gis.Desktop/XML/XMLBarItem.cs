@@ -15,7 +15,7 @@ using HuaBo.Gis.Interfaces;
 
 namespace HuaBo.Gis.Desktop.XML
 {
-    public class XMLItem
+    public class XMLBarItem
     {
 
         #region xml文件的标签名和属性名
@@ -69,12 +69,12 @@ namespace HuaBo.Gis.Desktop.XML
         public string ItemBeginGroup { get; set; }
         public XmlNode XmlNode { get; set; }
 
-        public XMLItem(XmlNode xmlNode)
+        public XMLBarItem(XmlNode xmlNode)
         { XmlNode = xmlNode; }
 
-        public static XMLItem GetXMLItem(XmlNode xmlNode)
+        public static XMLBarItem GetXMLItem(XmlNode xmlNode)
         {
-            XMLItem item = new XMLItem(xmlNode);
+            XMLBarItem item = new XMLBarItem(xmlNode);
             item.ItemName = xmlNode.Name;
             item.ItemText = NodeAttr.GetSetNodeAttrValue(xmlNode, Text, Guid.NewGuid() + "");
             item.ItemVisible = NodeAttr.GetSetNodeAttrValue(xmlNode, Visible, "true");
@@ -101,7 +101,7 @@ namespace HuaBo.Gis.Desktop.XML
         public static BarItem CreateBarItem(XmlNode itemNode, RibbonControl ribbon, BarItemLinkCollection itemlinks, Dictionary<string, CtrlAction> ctrlActions)
         {
             System.Reflection.Assembly asmb = System.Reflection.Assembly.LoadFrom(@"./DevExpress.XtraBars.v14.1.dll");
-            XMLItem xmlItem = XMLItem.GetXMLItem(itemNode);
+            XMLBarItem xmlItem = XMLBarItem.GetXMLItem(itemNode);
             Type t = asmb.GetType(xmlItem.ItemItemType);
             BarItem result = Activator.CreateInstance(t) as BarItem;
 
@@ -147,37 +147,37 @@ namespace HuaBo.Gis.Desktop.XML
                 }
                 switch (xmlItem.ItemName)
                 {
-                    case XMLItemName.Button://普通button,但是带checked属性
+                    case XMLCommandType.Button://普通button,但是带checked属性
                         CreateBarButtonItem(result, xmlItem);
                         break;
-                    case XMLItemName.ButtonCheckDropDown://判断如果有子菜单的情况 XMLItemName.ButtonCheckDropDown,暂时用不到，等换了新版本再说
+                    case XMLCommandType.ButtonCheckDropDown://判断如果有子菜单的情况 XMLItemName.ButtonCheckDropDown,暂时用不到，等换了新版本再说
                         CreateBarButtonCheckDropItem(result, xmlItem);
                         break;
-                    case XMLItemName.ButtonDropDown:
+                    case XMLCommandType.ButtonDropDown:
                         CreateBarButtonDrop(result, xmlItem, ribbon, ctrlActions);
                         break;
-                    case XMLItemName.ButtonDropDownAct:
+                    case XMLCommandType.ButtonDropDownAct:
                         CreateBarDropActItem(result, xmlItem);
                         break;
-                    case XMLItemName.ButtonGroup:
+                    case XMLCommandType.ButtonGroup:
                         break;
-                    case XMLItemName.Check:
+                    case XMLCommandType.Check:
                         CreateBarCheckItem(result, xmlItem);
                         break;
-                    case XMLItemName.ComboBoxEdit:
+                    case XMLCommandType.ComboBoxEdit:
                         CreateBarComboBoxEditItem(result, xmlItem);
                         break;
-                    case XMLItemName.RibbonGallery:
+                    case XMLCommandType.RibbonGallery:
                         break;
-                    case XMLItemName.SkinRibbonGallery:
+                    case XMLCommandType.SkinRibbonGallery:
                         CreateSkinRibbonGalleryBarItem(result, xmlItem);
                         break;
-                    case XMLItemName.StaticText:
+                    case XMLCommandType.StaticText:
                         break;
-                    case XMLItemName.TextEdit:
+                    case XMLCommandType.TextEdit:
                         CreateBarTextEditItem(result, xmlItem);
                         break;
-                    case XMLItemName.ToggleSwtich:
+                    case XMLCommandType.ToggleSwtich:
                         break;
                     default: break;
                 }
@@ -187,7 +187,7 @@ namespace HuaBo.Gis.Desktop.XML
         }
 
         //普通的Button，但是包含Check类型
-        private static BarButtonItem CreateBarButtonItem(BarItem barItem, XMLItem xmlItem)
+        private static BarButtonItem CreateBarButtonItem(BarItem barItem, XMLBarItem xmlItem)
         {
             BarButtonItem result = barItem as BarButtonItem;
             try
@@ -211,12 +211,12 @@ namespace HuaBo.Gis.Desktop.XML
         }
 
         //14.2的按钮，以后写
-        private static BarButtonItem CreateBarButtonCheckDropItem(BarItem barItem, XMLItem xmlItem)
+        private static BarButtonItem CreateBarButtonCheckDropItem(BarItem barItem, XMLBarItem xmlItem)
         {
             return null;
         }
 
-        private static BarButtonItem CreateBarButtonDrop(BarItem barItem, XMLItem xmlItem, RibbonControl ribbon, Dictionary<string, CtrlAction> ctrlActions)
+        private static BarButtonItem CreateBarButtonDrop(BarItem barItem, XMLBarItem xmlItem, RibbonControl ribbon, Dictionary<string, CtrlAction> ctrlActions)
         {
             BarButtonItem result = barItem as BarButtonItem;
             try
@@ -227,7 +227,7 @@ namespace HuaBo.Gis.Desktop.XML
 
                 foreach (XmlNode dropItemNode in xmlItem.XmlNode.ChildNodes)
                 {
-                    BarItem barDropItem = XMLItem.CreateBarItem(dropItemNode, ribbon, popup.ItemLinks, ctrlActions);
+                    BarItem barDropItem = XMLBarItem.CreateBarItem(dropItemNode, ribbon, popup.ItemLinks, ctrlActions);
                 }
             }
             catch (Exception)
@@ -238,7 +238,7 @@ namespace HuaBo.Gis.Desktop.XML
         }
 
         //应该有下拉的，还没写
-        private static BarButtonItem CreateBarDropActItem(BarItem barItem, XMLItem xmlItem)
+        private static BarButtonItem CreateBarDropActItem(BarItem barItem, XMLBarItem xmlItem)
         {
             BarButtonItem result = barItem as BarButtonItem;
             try
@@ -253,12 +253,12 @@ namespace HuaBo.Gis.Desktop.XML
             return result;
         }
 
-        private static BarButtonGroup CreateBarButtonGroup(BarItem barItem, XMLItem xmlItem)
+        private static BarButtonGroup CreateBarButtonGroup(BarItem barItem, XMLBarItem xmlItem)
         {
             return null;
         }
 
-        private static BarCheckItem CreateBarCheckItem(BarItem barItem, XMLItem xmlItem)
+        private static BarCheckItem CreateBarCheckItem(BarItem barItem, XMLBarItem xmlItem)
         {
             BarCheckItem result = barItem as BarCheckItem;
             try
@@ -272,7 +272,7 @@ namespace HuaBo.Gis.Desktop.XML
             return result;
         }
 
-        private static BarEditItem CreateBarComboBoxEditItem(BarItem barItem, XMLItem xmlItem)
+        private static BarEditItem CreateBarComboBoxEditItem(BarItem barItem, XMLBarItem xmlItem)
         {
             BarEditItem result = barItem as BarEditItem;
             try
@@ -292,7 +292,7 @@ namespace HuaBo.Gis.Desktop.XML
             return result;
         }
 
-        private static BarEditItem CreateBarTextEditItem(BarItem barItem, XMLItem xmlItem)
+        private static BarEditItem CreateBarTextEditItem(BarItem barItem, XMLBarItem xmlItem)
         {
             BarEditItem result = barItem as BarEditItem;
             try
@@ -307,12 +307,12 @@ namespace HuaBo.Gis.Desktop.XML
             return result;
         }
 
-        private static RibbonGalleryBarItem CreateRibbonGalleryBarItem(BarItem barItem, XMLItem xmlItem)
+        private static RibbonGalleryBarItem CreateRibbonGalleryBarItem(BarItem barItem, XMLBarItem xmlItem)
         {
             return null;
         }
 
-        private static SkinRibbonGalleryBarItem CreateSkinRibbonGalleryBarItem(BarItem barItem, XMLItem xmlItem)
+        private static SkinRibbonGalleryBarItem CreateSkinRibbonGalleryBarItem(BarItem barItem, XMLBarItem xmlItem)
         {
             SkinRibbonGalleryBarItem result = barItem as SkinRibbonGalleryBarItem;
             try
@@ -325,7 +325,7 @@ namespace HuaBo.Gis.Desktop.XML
             }
             return result;
         }
-        private static BarStaticItem CreateBarStaticItem(BarItem barItem, XMLItem xmlItem)
+        private static BarStaticItem CreateBarStaticItem(BarItem barItem, XMLBarItem xmlItem)
         {
             return null;
         }

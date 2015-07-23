@@ -12,14 +12,10 @@ namespace HuaBo.Gis.Desktop
 {
     public abstract class CtrlAction
     {
-        public CtrlAction() { }
-
-        //public CtrlAction(BarItem barItem, IForm form)
-        //{
-        //    BarItem = barItem;
-        //    Form = form;
-        //}
-
+        public CtrlAction() 
+        {
+        }
+        
         //测试
         public BarItem BarItem { get; set; }
         /// <summary>

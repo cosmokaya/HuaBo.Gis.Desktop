@@ -82,7 +82,7 @@ namespace HuaBo.Gis.Desktop
                 foreach (XmlNode itemNode in groupnode.ChildNodes)
                 {
                     //先解析此Item，如果标签名是Items，则转换为
-                    XMLItem.CreateBarItem(itemNode, Ribbon, group.ItemLinks, m_ctrlActions);
+                    XMLBarItem.CreateBarItem(itemNode, Ribbon, group.ItemLinks, m_ctrlActions);
                 }
             }
         }

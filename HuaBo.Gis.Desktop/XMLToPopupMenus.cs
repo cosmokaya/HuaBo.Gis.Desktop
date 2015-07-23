@@ -20,7 +20,7 @@ namespace HuaBo.Gis.Desktop
         /// <param name="doc"></param>
         /// <param name="ctrlActions"></param>
         /// <returns></returns>
-        public static Dictionary<string, PopupMenu> GetMenus(RibbonControl ribbon, XmlDocument doc, Dictionary<string, CtrlAction> ctrlActions)
+        public static Dictionary<string, PopupMenu> GetPopupMenus(RibbonControl ribbon, XmlDocument doc, Dictionary<string, CtrlAction> ctrlActions)
         {
             Dictionary<string, PopupMenu> menus = new Dictionary<string, PopupMenu>();
             foreach (XmlNode popupMenus in doc.DocumentElement.ChildNodes)
@@ -35,7 +35,8 @@ namespace HuaBo.Gis.Desktop
                             menus.Add(menu.Name, menu);
                             foreach (XmlNode item in popupItem.ChildNodes)
                             {
-                                XMLItem.CreateBarItem(item, ribbon, menu.ItemLinks, ctrlActions);
+                                //BarItem item = new BarItem();
+                                XMLBarItem.CreateBarItem(item, ribbon, menu.ItemLinks, ctrlActions);
 
                             }
                         }

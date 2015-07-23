@@ -17,5 +17,10 @@ namespace HuaBo.Gis.Plugins
             frc.ShowDialog();
         }
 
+        public override bool Enable()
+        {
+            return false;
+        }
+
     }
 }
