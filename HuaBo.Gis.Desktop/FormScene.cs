@@ -19,7 +19,12 @@ namespace HuaBo.Gis.Desktop
         public FormScene()
         {
             InitializeComponent();
+            DistanceUnit = Unit.Meter;
+            AreaUnit = Unit.Meter;
+            VolumnUnit = Unit.Meter;
+
             m_sceneControl = new SceneControl();
+            m_sceneControl.Name = this.Text;
             m_sceneControl.Dock = DockStyle.Fill;
             m_sceneControl.IsAlwaysUpdate = true;
             m_sceneControl.Action = Action3D.Pan2;
@@ -42,7 +47,15 @@ namespace HuaBo.Gis.Desktop
                 }
             };
             this.CurrentTool = null;
+
+            this.TextChanged += FormScene_TextChanged;
         }
+
+        void FormScene_TextChanged(object sender, EventArgs e)
+        {
+            m_sceneControl.Name = this.Text;
+        }
+
 
         private SceneControl m_sceneControl;
         public SuperMap.UI.SceneControl SceneControl
@@ -73,10 +86,13 @@ namespace HuaBo.Gis.Desktop
             }
         }
 
-        private void FormScene_Load(object sender, EventArgs e)
-        {
+        public Unit DistanceUnit { get; set; }
+        public Unit AreaUnit { get; set; }
+        public Unit VolumnUnit { get; set; }
 
-        }
+
+
+        
 
 
         private void FormScene_FormClosed(object sender, FormClosedEventArgs e)

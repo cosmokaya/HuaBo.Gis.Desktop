@@ -15,30 +15,24 @@ using System.ComponentModel.Composition;
 namespace HuaBo.Gis.Scenes
 {
     [Export(typeof(XtraUserControl))]
-    public partial class ControlSceneSunManage : DevExpress.XtraEditors.XtraUserControl
+    public partial class ControlSceneSunManage : ControlBase
     {
         private Dictionary<IForm, ControlSunManage> m_controlSunManagers = null;
         public ControlSceneSunManage()
         {
             InitializeComponent();
             m_controlSunManagers = new Dictionary<IForm, ControlSunManage>();
-
-            GisApp.ActiveApp.FormMain.DocumentManager.View.DocumentActivated += View_DocumentActivated;
-            GisApp.ActiveApp.FormMain.DocumentManager.View.DocumentRemoved += View_DocumentRemoved;
-            this.VisibleChanged += ControlSceneSunManage_VisibleChanged;
         }
 
-        void View_DocumentRemoved(object sender, DevExpress.XtraBars.Docking2010.Views.DocumentEventArgs e)
+        protected override void View_DocumentActivated(object sender, DevExpress.XtraBars.Docking2010.Views.DocumentEventArgs e)
         {
-
         }
 
-        void View_DocumentActivated(object sender, DevExpress.XtraBars.Docking2010.Views.DocumentEventArgs e)
+        protected override void View_DocumentRemoved(object sender, DevExpress.XtraBars.Docking2010.Views.DocumentEventArgs e)
         {
-
         }
 
-        void ControlSceneSunManage_VisibleChanged(object sender, EventArgs e)
+        protected override void ControlBase_VisibleChanged(object sender, EventArgs e)
         {
             if (this.Visible)
             {
@@ -57,6 +51,7 @@ namespace HuaBo.Gis.Scenes
                 this.Controls.Add(m_controlSunManagers[form]);
             }
         }
+
 
     }
 }

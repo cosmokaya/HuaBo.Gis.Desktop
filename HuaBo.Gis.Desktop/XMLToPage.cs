@@ -7,7 +7,6 @@ using System.Xml;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.Helpers;
 using DevExpress.XtraBars.Ribbon;
-using HuaBo.Gis.Desktop.XML;
 using HuaBo.Gis.Interfaces;
 
 namespace HuaBo.Gis.Desktop
@@ -15,40 +14,54 @@ namespace HuaBo.Gis.Desktop
     public class XMLToPage
     {
         private static RibbonControl Ribbon;
-        private static XmlDocument m_doc;
-        private static Dictionary<string, CtrlAction> m_ctrlActions;
+        private XmlNode m_xmlNode;
+        private Dictionary<string, CtrlAction> m_ctrlActions;
+
+        static XMLToPage()
+        {
+            Ribbon = GisApp.ActiveApp.FormMain.RibbonView;
+        }
 
         /// <summary>
-        /// 所有Page添加到Ribbon中
+        /// 
         /// </summary>
-        /// <param name="ribbon"></param>
-        /// <param name="doc"></param>
+        /// <param name="xmlNode">XmlNode的子节点必须全部为Page</param>
         /// <param name="ctrlActions"></param>
-        public static void Parse(RibbonControl ribbon, XmlDocument doc, Dictionary<string, CtrlAction> ctrlActions)
+        public XMLToPage(XmlNode xmlNode, Dictionary<string, CtrlAction> ctrlActions)
         {
-            Ribbon = ribbon;
-            m_doc = doc;
-            m_ctrlActions = ctrlActions;
+            if (Ribbon == null)
+            {
+                System.Windows.Forms.MessageBox.Show("先给静态变量Ribbon赋值！");
+            }
 
-            CreatePageNoForm(m_doc.DocumentElement);
+            if (XMLManager.GetNodeType(xmlNode) == XMLNodeType.Ribbon || XMLManager.GetNodeType(xmlNode) == XMLNodeType.PageCategory)
+            {
+                m_xmlNode = xmlNode;
+            }
+
+
+            m_ctrlActions = ctrlActions;
         }
 
         /// <summary>
         /// 创建非基于窗口的Page，这种都不要放到Category下面
         /// </summary>
-        private static void CreatePageNoForm(XmlElement rootElement)
+        public void CreateRibbonOrCategory(RibbonPageCategory category = null)
         {
-            foreach (XmlNode item in rootElement.ChildNodes)
+            //page-pagegroup-item-dropdown
+            foreach (XmlNode pageNode in m_xmlNode)
             {
-                if (XMLManager.GetNodeType(item) == XMLNodeType.Ribbon)
+                if (XMLManager.GetNodeType(pageNode) == XMLNodeType.Page)
                 {
-                    //page-pagegroup-item-dropdown
-                    foreach (XmlNode pageNode in item.ChildNodes)
+                    RibbonPage page = CreatePage(pageNode);
+                    if (category != null)
                     {
-                        RibbonPage page = CreatePage(pageNode);
+                        category.Pages.Add(page);
                     }
+                    CreateGroupAndItems(page, pageNode);
                 }
             }
+
         }
 
         public static RibbonPage CreatePage(XmlNode pageNode)
@@ -56,8 +69,6 @@ namespace HuaBo.Gis.Desktop
             RibbonPage page = XMLPage.CreatePage(pageNode);
             if (page == null) { return null; }
             Ribbon.Pages.Add(page);//必须在这个时候就加载进来，不然会出现问题。。
-            CreateGroupAndItems(page, pageNode);
-
             return page;
         }
 
@@ -69,7 +80,7 @@ namespace HuaBo.Gis.Desktop
         /// <param name="pageNode"></param>
         /// <param name="form"></param>
         /// <param name="isRun"></param>
-        private static void CreateGroupAndItems(RibbonPage page, XmlNode pageNode)
+        private void CreateGroupAndItems(RibbonPage page, XmlNode pageNode)
         {
             //每个page对应的插件
             //2.pagegroup-item-dropdown
@@ -82,7 +93,8 @@ namespace HuaBo.Gis.Desktop
                 foreach (XmlNode itemNode in groupnode.ChildNodes)
                 {
                     //先解析此Item，如果标签名是Items，则转换为
-                    XMLBarItem.CreateBarItem(itemNode, Ribbon, group.ItemLinks, m_ctrlActions);
+                    //todo:test
+                    BarItem barItem = XMLBarItem.CreateBarItem(itemNode, group.ItemLinks, m_ctrlActions);
                 }
             }
         }

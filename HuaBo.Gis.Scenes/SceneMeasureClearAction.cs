@@ -21,6 +21,21 @@ namespace HuaBo.Gis.Scenes
             }
         }
 
+        public override bool Enable()
+        {
+            bool result = false;
+            if ((Form as IFormScene) == null)
+            {
+                return false;
+            }
+            int index = (Form as IFormScene).SceneControl.Scene.TrackingLayer.IndexOf(this.TrackerLayerTag);
+            if (index != -1)
+            {
+                result = true;
+            }
+            return result;
+        }
+
         /// <summary>
         /// 移除制定的跟踪图层
         /// </summary>

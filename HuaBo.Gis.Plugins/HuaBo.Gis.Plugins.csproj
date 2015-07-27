@@ -115,6 +115,9 @@
     <Compile Include="ControlWorkspaceTree.Designer.cs">
       <DependentUpon>ControlWorkspaceTree.cs</DependentUpon>
     </Compile>
+    <Compile Include="DatasourceNewDateBaseAction.cs" />
+    <Compile Include="DatasourceNewMemoryAction.cs" />
+    <Compile Include="DatasourceNewUDBAction.cs" />
     <Compile Include="FormRasterClip.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,6 +127,8 @@
     <Compile Include="NewSceneAction.cs" />
     <Compile Include="NewSceneWindowAction.cs" />
     <Compile Include="OpenDatasourceFileAction.cs" />
+    <Compile Include="OpenDatasourceOracleAction.cs" />
+    <Compile Include="OpenDatasourceSQLAction.cs" />
     <Compile Include="OpenWorkspaceFileAction.cs" />
     <Compile Include="OpenWorkspaceOracleAction.cs" />
     <Compile Include="OpenWorkspaceSQLAction.cs" />

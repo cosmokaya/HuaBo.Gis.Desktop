@@ -1,13 +1,13 @@
-﻿namespace HuaBo.Gis.Desktop
+﻿namespace HuaBo.Gis.Scenes
 {
-    partial class FormScene
+    partial class ControlSceneProperty
     {
-        /// <summary>
+        /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -20,25 +20,22 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
             this.SuspendLayout();
             // 
-            // FormScene
+            // ControlSceneProperty
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Name = "FormScene";
-            this.Text = "FormScene";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormScene_FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormScene_FormClosed);
+            this.Name = "ControlSceneProperty";
+            this.Size = new System.Drawing.Size(343, 451);
             this.ResumeLayout(false);
 
         }

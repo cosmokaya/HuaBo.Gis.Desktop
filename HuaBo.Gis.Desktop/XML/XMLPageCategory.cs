@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using DevExpress.XtraBars.Ribbon;
 
-namespace HuaBo.Gis.Desktop.XML
+namespace HuaBo.Gis.Desktop
 {
     public class XMLPageCategory
     {
@@ -39,7 +39,7 @@ namespace HuaBo.Gis.Desktop.XML
             }
             else
             {
-                category.CategoryForm = NodeAttr.GetSetNodeAttrValue(xmlNode, Form);
+                category.CategoryForm = NodeAttr.GetOrDefaultNodeAttrValue(xmlNode, Form);
             }
             return category;
         }

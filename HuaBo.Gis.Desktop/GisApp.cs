@@ -32,7 +32,7 @@ namespace HuaBo.Gis.Desktop
         //控件也应该有这个集合,考虑- -
         public Dictionary<string, XtraUserControl> PluginControls { get; set; }
         //保存加载的控件和CtrlAction
-        private Dictionary<string, CtrlAction> CtrlActions { get; set; }
+        public Dictionary<string, CtrlAction> CtrlActions { get; set; }
 
         private XmlDocument m_doc;//界面的配置文件
         private string m_xmlPath = @"..\WorkEnvironment\Default2.xml";
@@ -61,21 +61,33 @@ namespace HuaBo.Gis.Desktop
             //原因：控件包含菜单，菜单包含BarItem
             foreach (var item in m_ctrlActions)
             {
-                CtrlActions.Add(item.Value.ToString(), item.Value);
+                this.CtrlActions.Add(item.Value.ToString(), item.Value);
             }
-            this.PopupMenus = XMLToPopupMenus.GetPopupMenus(this.FormMain.RibbonView, m_doc, CtrlActions);
+            XmlNode popupMenusNode = XMLManager.GetSelectNode(m_doc.DocumentElement, XMLNodeType.PopupMenus);
+            this.PopupMenus = XMLToPopupMenus.GetPopupMenus(popupMenusNode, CtrlActions);
             foreach (var item in m_controls)
             {
                 PluginControls.Add(item.Value.ToString(), item.Value);
             }
-            XMLToPage.Parse(this.FormMain.RibbonView, m_doc, CtrlActions);
-            XMLToDockpanels.Parse(this.FormMain.DockManager, m_doc, PluginControls);
+            //
+            XmlNode ribbonNode = XMLManager.GetSelectNode(m_doc.DocumentElement, XMLNodeType.Ribbon);
+            XMLToPage xmlToPage = new XMLToPage(ribbonNode, CtrlActions);
+            xmlToPage.CreateRibbonOrCategory();
+            //生成DockPanel，并加载控件.细节再考虑
+            XmlNode dockpanelsNode = XMLManager.GetSelectNode(m_doc.DocumentElement, XMLNodeType.DockPanels);
+            XMLToDockpanels.Parse(this.FormMain.DockManager, dockpanelsNode, PluginControls);
 
             //刷新主Page的状态属性
-            RefreshTab();
+            //RefreshTab();
+            Thread ts = new Thread(new ThreadStart(RefreshTab));
+            ts.Priority = ThreadPriority.BelowNormal;
+            ts.Start();
+            (this.FormMain as Form).FormClosed += (m, n) =>
+            {
+                ts.Abort();
+            };
 
             Application.Run(this.FormMain as Form);
-
         }
 
 
@@ -87,49 +99,33 @@ namespace HuaBo.Gis.Desktop
             }
         }
 
-        /// <summary>
-        /// todo：刷新Tab的状态，应该写在一个线程里面
-        /// </summary>
+        //刷新RibbonView
         private void RefreshTab()
         {
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-            timer.Interval = 50;
-            timer.Tick += (m, n) =>
+            while (true)
             {
                 for (int i = 0; i < this.FormMain.RibbonView.SelectedPage.Groups.Count; i++)
                 {
                     for (int j = 0; j < this.FormMain.RibbonView.SelectedPage.Groups[i].ItemLinks.Count; j++)
                     {
-                        RefreshItem(this.FormMain.RibbonView.SelectedPage.Groups[i].ItemLinks[j].Item);
+                        BarItem barItem = this.FormMain.RibbonView.SelectedPage.Groups[i].ItemLinks[j].Item;
+                        CtrlAction ctrl = barItem.Tag as CtrlAction;
+                        if (ctrl != null)
+                        {
+                            ctrl.ActiveApp_Refreshed("Refresh", new EventArgs());
+                        }
                     }
                 }
-            };
-            timer.Start();
+                this.FormMain.RibbonView.Refresh();//有时form会不刷新
+                Thread.Sleep(50);
+            }
+
         }
 
-        public void RefreshItem(BarItem barItem)
-        {
-            CtrlAction ctrl = barItem.Tag as CtrlAction;
-            if (ctrl != null)
-            {
-                barItem.Enabled = ctrl.Enable();
-                if ((barItem as BarCheckItem) != null)
-                {
-                    (barItem as BarCheckItem).Checked = ctrl.Check() == CheckState.Checked;
-                }
-                if ((barItem as BarButtonItem) != null)
-                {
-                    (barItem as BarButtonItem).Down = ctrl.Check() == CheckState.Checked;
-                }
-            }
-        }
 
         public IFormScene CreateFormScene(string sceneName = "")
         {
             (this.FormMain as Form).Cursor = Cursors.WaitCursor;
-            FormScene formscene = new FormScene();
-            formscene.Name = Guid.NewGuid() + ""; ;
-            formscene.Dock = DockStyle.Fill;
             string resultName = "";
             string defaultName = "未命名场景";
             if (sceneName == "")
@@ -154,13 +150,43 @@ namespace HuaBo.Gis.Desktop
             {
                 resultName = sceneName;
             }
+
+            FormScene formscene = new FormScene();
+            formscene.Name = Guid.NewGuid() + ""; ;
+            formscene.Dock = DockStyle.Fill;
             formscene.Text = resultName;
             //一定要在Mdi赋值前就要把所有属性设置好，因为设置这个属性就会触发documentadd事件。则这个Form的属性不全
-            formscene.Tag = XMLToPageCategory.Create((typeof(IFormScene)).ToString(), resultName, m_doc.DocumentElement);
+            formscene.Tag = CreateCategoryByIForm((typeof(IFormScene)).ToString());
             formscene.MdiParent = this.FormMain as Form;
             formscene.Show();
             (this.FormMain as Form).Cursor = Cursors.Default;
             return formscene;
+        }
+
+        private RibbonPageCategory CreateCategoryByIForm(string formType)
+        {
+            RibbonPageCategory result = null;
+            try
+            {
+                //
+                XmlNode node = XMLManager.GetSelectNode(m_doc.DocumentElement, XMLNodeType.Ribbon);
+                foreach (XmlNode item in node.ChildNodes)
+                {
+                    if (XMLManager.GetNodeType(item) == XMLNodeType.PageCategory && item.Attributes[XMLPageCategory.Form].Value == formType)
+                    {
+                        node = item;
+                        break;
+                    }
+                }
+                result = XMLPageCategory.CreateCategory(node);
+                XMLToPage xmlToPage = new XMLToPage(node, CtrlActions);
+                xmlToPage.CreateRibbonOrCategory(result);
+            }
+            catch (Exception)
+            {
+                result = null;
+            }
+            return result;
         }
 
         public IFormMap CreateFormMap(string mapScene = "")
@@ -170,10 +196,6 @@ namespace HuaBo.Gis.Desktop
             return null;
         }
 
-        //public RibbonPageCategory CreatePageCategory(string formType, string categoryName)
-        //{
-        //    return XMLToPageCategory.Create(formType, categoryName, m_doc.DocumentElement);
-        //}
 
     }
 

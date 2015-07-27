@@ -10,12 +10,13 @@ using SuperMap.Data;
 
 namespace HuaBo.Gis.Desktop
 {
-    public abstract class CtrlAction
+    public abstract class CtrlAction : FormControlEvents
     {
-        public CtrlAction() 
+        public CtrlAction()
+            : base()
         {
         }
-        
+
         //测试
         public BarItem BarItem { get; set; }
         /// <summary>
@@ -39,6 +40,24 @@ namespace HuaBo.Gis.Desktop
 
         public virtual void Run()
         { }
+
+        /// <summary>
+        /// 重写ComboEdit之类的编辑工具的刷新
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public override void ActiveApp_Refreshed(object sender, EventArgs e)
+        {
+            BarItem.Enabled = this.Enable();
+            if ((BarItem as BarCheckItem) != null)
+            {
+                (BarItem as BarCheckItem).Checked = this.Check() == CheckState.Checked;
+            }
+            if ((BarItem as BarButtonItem) != null)
+            {
+                (BarItem as BarButtonItem).Down = this.Check() == CheckState.Checked;
+            }
+        }
 
 
     }

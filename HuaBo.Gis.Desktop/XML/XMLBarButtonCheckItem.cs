@@ -9,17 +9,26 @@ using DevExpress.XtraBars.Ribbon;
 
 namespace HuaBo.Gis.Desktop
 {
-    public class XMLBarButtonItem : XMLBarItem
+    public class XMLBarButtonCheckItem : XMLBarButtonItem
     {
+        internal string ItemChecked { get; set; }
+        /// <summary>
+        /// 是否默认选中,如果不是button或者checkbutton类型的，设置为""
+        /// </summary>
+        public static string Checked = "checked";
 
-        public XMLBarButtonItem(XmlNode xmlNode, BarItemLinkCollection itemlinks, Dictionary<string, CtrlAction> CtrlActions)
+        public XMLBarButtonCheckItem(XmlNode xmlNode, BarItemLinkCollection itemlinks, Dictionary<string, CtrlAction> CtrlActions)
             : base(xmlNode, itemlinks, CtrlActions)
-        { }
+        {
+            this.ItemChecked = NodeAttr.GetOrDefaultNodeAttrValue(xmlNode, Checked, "false");
+        }
 
 
         protected override BarItem CreateBarItem()
         {
             this.BarItem = new BarButtonItem();
+            (this.BarItem as BarButtonItem).ButtonStyle = BarButtonStyle.Check;
+
             bool isBeginGroup = this.ItemBeginGroup == "true";
             this.ItemLinks.Add(this.BarItem, isBeginGroup);
             this.BarItem.Name = Guid.NewGuid() + "";
@@ -38,6 +47,7 @@ namespace HuaBo.Gis.Desktop
                     };
             }
 
+            (this.BarItem as BarButtonItem).Down = this.ItemChecked == "true";
             return this.BarItem;
         }
     }

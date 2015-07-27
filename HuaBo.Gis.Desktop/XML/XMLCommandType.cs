@@ -4,15 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HuaBo.Gis.Desktop.XML
+namespace HuaBo.Gis.Desktop
 {
     /// <summary>
     /// 其实完全可以根据接口转换来确定是啥类型
     /// </summary>
     public class XMLCommandType
     {
-        //普通的Item(但是包括Check的Button)
+        //普通的Item
         public const string Button = "button";
+        //普通的Item
+        public const string ButtonCheck = "btncheck";
         //有下拉菜单的，也能自己点击
         public const string ButtonDropDown = "dropdown";
         //有下拉菜单的,但是只用来显示下拉菜单，不能自己点击
@@ -31,5 +33,21 @@ namespace HuaBo.Gis.Desktop.XML
         public const string ComboBoxEdit = "comboedit";
         //文本编辑
         public const string TextEdit = "textedit";
+
+        public const string RepositoryItem = "item";
+
+        /// <summary>
+        /// ribbon
+        /// </summary>
+        public const string Ribbon = "ribbon";
+        /// <summary>
+        /// 是否开启新组
+        /// </summary>
+        public const string DockPanels = "dockpanels";
+        /// <summary>
+        /// 是否开启新组
+        /// </summary>
+        public const string PopupMenus = "popupmenus";
+
     }
 }

@@ -9,9 +9,9 @@ using DevExpress.XtraBars.Docking;
 using DevExpress.XtraEditors;
 using System.Windows.Forms;
 
-namespace HuaBo.Gis.Desktop.XML
+namespace HuaBo.Gis.Desktop
 {
-    public class XMLDockPanel
+    public class XMLDockPanel //: XMLBase
     {
         public const string Name = "dockpanel";
         public static string DockStyleStr = "style";
@@ -58,19 +58,19 @@ namespace HuaBo.Gis.Desktop.XML
         public XMLDockPanel(XmlNode xmlNode)
         { XmlNode = xmlNode; }
 
-        public static XMLDockPanel GetXMLDockPanel(XmlNode xmlNode)
+        public static XMLDockPanel CreateXMLDockPanel(XmlNode xmlNode)
         {
             XMLDockPanel item = new XMLDockPanel(xmlNode);
             item.ItemName = xmlNode.Name;
-            item.ItemDockStyle = NodeAttr.GetSetNodeAttrValue(xmlNode, DockStyleStr, "");
-            item.ItemText = NodeAttr.GetSetNodeAttrValue(xmlNode, Text, Guid.NewGuid() + "");
-            item.ItemVisible = NodeAttr.GetSetNodeAttrValue(xmlNode, Visible, "true");
-            item.ItemForm = NodeAttr.GetSetNodeAttrValue(xmlNode, Form, "");
+            item.ItemDockStyle = NodeAttr.GetOrDefaultNodeAttrValue(xmlNode, DockStyleStr, "");
+            item.ItemText = NodeAttr.GetOrDefaultNodeAttrValue(xmlNode, Text, Guid.NewGuid() + "");
+            item.ItemVisible = NodeAttr.GetOrDefaultNodeAttrValue(xmlNode, Visible, "true");
+            item.ItemForm = NodeAttr.GetOrDefaultNodeAttrValue(xmlNode, Form, "");
             //
-            item.ItemDllPath = NodeAttr.GetSetNodeAttrValue(xmlNode, DllPath, "");
-            item.ItemBindControl = NodeAttr.GetSetNodeAttrValue(xmlNode, BindControl);
-            item.ItemFloatLocation = NodeAttr.GetSetNodeAttrValue(xmlNode, FloatLocation, "0,0");
-            item.ItemSize = NodeAttr.GetSetNodeAttrValue(xmlNode, Size, "0,0");
+            item.ItemDllPath = NodeAttr.GetOrDefaultNodeAttrValue(xmlNode, DllPath, "");
+            item.ItemBindControl = NodeAttr.GetOrDefaultNodeAttrValue(xmlNode, BindControl);
+            item.ItemFloatLocation = NodeAttr.GetOrDefaultNodeAttrValue(xmlNode, FloatLocation, "0,0");
+            item.ItemSize = NodeAttr.GetOrDefaultNodeAttrValue(xmlNode, Size, "0,0");
             return item;
         }
 
@@ -79,6 +79,7 @@ namespace HuaBo.Gis.Desktop.XML
         {
             DockPanel dockPanel = null;
             dockPanel = AddDockPanel(GetDockStyleFormXml(xmlItem.ItemDockStyle), dockManager);
+            dockPanel.Width = 300;
             if (dockPanel.Dock == DockingStyle.Float)
             {
                 int x = Convert.ToInt32(xmlItem.ItemFloatLocation.Split(",".ToCharArray()).ToList()[0]);
@@ -98,6 +99,7 @@ namespace HuaBo.Gis.Desktop.XML
             dockPanel.Text = xmlItem.ItemText;
             dockPanel.Visibility = xmlItem.ItemVisible == "true" ? DockVisibility.Visible : DockVisibility.Hidden;
 
+
             if (pluginCtrls.ContainsKey(xmlItem.ItemBindControl))
             {
                 Control ctrl = pluginCtrls[xmlItem.ItemBindControl];
@@ -106,7 +108,6 @@ namespace HuaBo.Gis.Desktop.XML
             }
             return dockPanel;
         }
-
 
 
         public static DockPanel AddDockPanel(DockingStyle dockingStyle, DockManager dockManager)

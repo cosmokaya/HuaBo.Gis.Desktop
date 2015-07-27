@@ -9,14 +9,18 @@ using System.Xml;
 using System.Windows.Forms;
 using HuaBo.Gis.Interfaces;
 
-namespace HuaBo.Gis.Desktop.XML
+namespace HuaBo.Gis.Desktop
 {
+    /// <summary>
+    /// XML转换为PopupMenu，但是必须早就指定好Ribbon
+    /// </summary>
     public class XMLPopupMenu
     {
         /// <summary>
         /// 标签名
         /// </summary>
         public const string Name = "name";
+        public static RibbonControl Ribbon;
 
         public XmlNode XmlNode { get; set; }
 
@@ -25,16 +29,29 @@ namespace HuaBo.Gis.Desktop.XML
             XmlNode = xmlNode;
         }
 
-        public static PopupMenu CreatePopupMenu(XmlNode xmlNode, RibbonControl ribbon)
+        static XMLPopupMenu()
         {
+            if (GisApp.ActiveApp.FormMain.RibbonView != null)
+            {
+                Ribbon = GisApp.ActiveApp.FormMain.RibbonView;
+            }
+        }
+
+        public PopupMenu CreatePopupMenu()
+        {
+            if (Ribbon == null)
+            {
+                MessageBox.Show("未指定XMLPopupMenu的Ribbon!");
+                return null;
+            }
             PopupMenu popupMenu = new PopupMenu();
-            popupMenu.Ribbon = ribbon;
-            popupMenu.Name = NodeAttr.GetSetNodeAttrValue(xmlNode, Name, Guid.NewGuid() + "");
+            popupMenu.Ribbon = Ribbon;
+            popupMenu.Name = NodeAttr.GetOrDefaultNodeAttrValue(XmlNode, Name, Guid.NewGuid() + "");
             popupMenu.BeforePopup += popupMenu_BeforePopup;
             return popupMenu;
         }
 
-        static void popupMenu_BeforePopup(object sender, System.ComponentModel.CancelEventArgs e)
+        void popupMenu_BeforePopup(object sender, System.ComponentModel.CancelEventArgs e)
         {
             foreach (BarItemLink item in ((PopupMenu)sender).ItemLinks)
             {
@@ -42,8 +59,7 @@ namespace HuaBo.Gis.Desktop.XML
                 CtrlAction ctrlAction = barItem.Tag as CtrlAction;
                 if (ctrlAction != null)
                 {
-                    //ctrlAction.Form = GisApp.ActiveApp.FormMain.ActiveForm;
-                    GisApp.ActiveApp.RefreshItem(barItem);
+                    ctrlAction.ActiveApp_Refreshed("Refresh", new EventArgs());
                 }
 
             }

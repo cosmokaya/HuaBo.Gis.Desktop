@@ -1,6 +1,5 @@
 ﻿using DevExpress.XtraBars;
 using DevExpress.XtraBars.Ribbon;
-using HuaBo.Gis.Desktop.XML;
 using HuaBo.Gis.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,7 @@ using System.Xml;
 
 namespace HuaBo.Gis.Desktop
 {
-    class XMLToPopupMenus
+    internal class XMLToPopupMenus
     {
         /// <summary>
         /// 获取所有右键菜单
@@ -20,30 +19,27 @@ namespace HuaBo.Gis.Desktop
         /// <param name="doc"></param>
         /// <param name="ctrlActions"></param>
         /// <returns></returns>
-        public static Dictionary<string, PopupMenu> GetPopupMenus(RibbonControl ribbon, XmlDocument doc, Dictionary<string, CtrlAction> ctrlActions)
+        public static Dictionary<string, PopupMenu> GetPopupMenus(XmlNode xmlNode, Dictionary<string, CtrlAction> ctrlActions)
         {
             Dictionary<string, PopupMenu> menus = new Dictionary<string, PopupMenu>();
-            foreach (XmlNode popupMenus in doc.DocumentElement.ChildNodes)
-            {
-                if (XMLManager.GetNodeType(popupMenus) == XMLNodeType.PopupMenus)
-                {
-                    foreach (XmlNode popupItem in popupMenus.ChildNodes)
-                    {
-                        PopupMenu menu = XMLPopupMenu.CreatePopupMenu(popupItem, ribbon);
-                        if (!menus.ContainsKey(menu.Name))
-                        {
-                            menus.Add(menu.Name, menu);
-                            foreach (XmlNode item in popupItem.ChildNodes)
-                            {
-                                //BarItem item = new BarItem();
-                                XMLBarItem.CreateBarItem(item, ribbon, menu.ItemLinks, ctrlActions);
 
-                            }
+            if (XMLManager.GetNodeType(xmlNode) == XMLNodeType.PopupMenus)
+            {
+                foreach (XmlNode popupItemNode in xmlNode.ChildNodes)
+                {
+                    PopupMenu popupMenu = (new XMLPopupMenu(popupItemNode)).CreatePopupMenu();
+                    if (!menus.ContainsKey(popupMenu.Name))
+                    {
+                        menus.Add(popupMenu.Name, popupMenu);
+                        foreach (XmlNode item in popupItemNode.ChildNodes)
+                        {
+                            //BarItem item = new BarItem();
+                            XMLBarItem.CreateBarItem(item, popupMenu.ItemLinks, ctrlActions);
                         }
                     }
                 }
-
             }
+
             return menus;
 
         }

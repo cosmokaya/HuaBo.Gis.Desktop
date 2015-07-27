@@ -36,13 +36,6 @@ namespace HuaBo.Gis.Desktop
             get { return this.m_dockManager; }
         }
 
-        private Dictionary<string, PopupMenu> m_popupMenus;
-        public Dictionary<string, PopupMenu> PopupMenus
-        {
-            get { return this.m_popupMenus; }
-            set { this.m_popupMenus = value; }
-        }
-
         public new IForm ActiveForm
         {
             get
@@ -59,7 +52,6 @@ namespace HuaBo.Gis.Desktop
         public FormMain()
         {
             InitializeComponent();
-            m_popupMenus = new Dictionary<string, PopupMenu>();
             if (!DevExpress.Skins.SkinManager.AllowFormSkins)
             {
                 DevExpress.Skins.SkinManager.EnableFormSkins();
@@ -121,8 +113,8 @@ namespace HuaBo.Gis.Desktop
                 RibbonView.PageCategories.Clear();
                 //todo：这个地方可能有问题。是否通过GisApp.ActiveApp.Doc来传值值得考虑
                 RibbonPageCategory category = e.Document.Form.Tag as RibbonPageCategory;
-
                 RibbonView.PageCategories.Add(category);
+                category.Tag = category.Pages[0];
                 RibbonView.SelectedPage = category.Pages[0];
             }
             catch (Exception ex)
@@ -134,7 +126,7 @@ namespace HuaBo.Gis.Desktop
 
         private void barButtonItem1_ItemClick(object sender, ItemClickEventArgs e)
         {
-            this.Icon.ToBitmap().Save("D:\\1.ico");
+            //this.Icon.ToBitmap().Save("D:\\1.ico");
         }
 
         private void barButtonItem2_ItemClick(object sender, ItemClickEventArgs e)

@@ -88,8 +88,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\Class1.cs" />
+    <Compile Include="Commands\BitMapManager.cs" />
+    <Compile Include="ControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlBase.Designer.cs">
+      <DependentUpon>ControlBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="CtrlAction.cs" />
+    <Compile Include="FormControlEvents.cs" />
     <Compile Include="FormScene.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,13 +119,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Unit.cs" />
     <Compile Include="XMLToDockpanels.cs" />
     <Compile Include="XMLToPageCategory.cs" />
     <Compile Include="XMLToPage.cs" />
     <Compile Include="XMLToPopupMenus.cs" />
     <Compile Include="XML\NodeAttr.cs" />
+    <Compile Include="XML\XMLBarButtonCheckItem.cs" />
+    <Compile Include="XML\XMLBarButtonDropDownItem.cs" />
     <Compile Include="XML\XMLBarButtonItem.cs" />
+    <Compile Include="XML\XMLBarCheckItem.cs" />
+    <Compile Include="XML\XMLTextEditItem.cs" />
     <Compile Include="XML\XMLBase.cs" />
+    <Compile Include="XML\XMLComboBoxEditItem.cs" />
     <Compile Include="XML\XMLDockPanel.cs" />
     <Compile Include="XML\XMLBarItem.cs" />
     <Compile Include="XML\XMLCommandType.cs" />
@@ -127,7 +140,11 @@
     <Compile Include="XML\XMLPageCategory.cs" />
     <Compile Include="XML\XMLPageGroup.cs" />
     <Compile Include="XML\XMLPopupMenu.cs" />
-    <Compile Include="XML\XMLRoot.cs" />
+    <Compile Include="XML\XMLRepositoryItem.cs" />
+    <Compile Include="XML\XMLSkinRibbonGalleryItem.cs" />
+    <EmbeddedResource Include="ControlBase.resx">
+      <DependentUpon>ControlBase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormScene.resx">
       <DependentUpon>FormScene.cs</DependentUpon>
     </EmbeddedResource>

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace HuaBo.Gis.Desktop.XML
+namespace HuaBo.Gis.Desktop
 {
     public class XMLManager
     {
@@ -14,13 +14,13 @@ namespace HuaBo.Gis.Desktop.XML
             XMLNodeType nodeType = XMLNodeType.Plugin;
             switch (xmlNode.Name)
             {
-                case XMLRoot.Ribbon:
+                case XMLCommandType.Ribbon:
                     nodeType = XMLNodeType.Ribbon;
                     break;
-                case XMLRoot.DockPanel:
+                case XMLCommandType.DockPanels:
                     nodeType = XMLNodeType.DockPanels;
                     break;
-                case XMLRoot.PopupMenu:
+                case XMLCommandType.PopupMenus:
                     nodeType = XMLNodeType.PopupMenus;
                     break;
                 case XMLPageCategory.Name:
@@ -37,6 +37,34 @@ namespace HuaBo.Gis.Desktop.XML
                     break;
             }
             return nodeType;
+        }
+
+        /// <summary>
+        /// 获取需要的XmlNode,只循环一次
+        /// </summary>
+        /// <param name="xmlNode"></param>
+        /// <param name="type">类型只支持单一类型的，比如Ribbon，DockPanels，PopupMenus</param>
+        /// <returns></returns>
+        public static XmlNode GetSelectNode(XmlNode xmlNode, XMLNodeType type)
+        {
+            XmlNode result = null;
+
+            if (XMLManager.GetNodeType(xmlNode) == type)
+            {
+                result = xmlNode;
+            }
+            else
+            {
+                foreach (XmlNode item in xmlNode.ChildNodes)
+                {
+                    if (XMLManager.GetNodeType(item) == type)
+                    {
+                        result = item;
+                        break;
+                    }
+                }
+            }
+            return result;
         }
 
     }

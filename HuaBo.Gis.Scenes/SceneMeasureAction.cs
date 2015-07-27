@@ -9,16 +9,12 @@ namespace HuaBo.Gis.Scenes
 {
     public abstract class SceneMeasureAction : CtrlAction
     {
-        public Unit DistanceUnit = Unit.Meter;
-        public Unit AreaUnit = Unit.Meter;
+        //其实没啥用...
         public string TrackerLayerTag = "Measure";
+
+
     }
 
-    public enum Unit
-    {
-        Meter = 1,
-        KiloMeter = 1000
-    }
 
 
 }

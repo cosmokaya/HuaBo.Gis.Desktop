@@ -27,5 +27,6 @@ namespace HuaBo.Gis.Plugins
             return GisApp.ActiveApp.Workspace.IsModified;
         }
 
+
     }
 }

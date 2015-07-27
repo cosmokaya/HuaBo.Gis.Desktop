@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace HuaBo.Gis.Desktop.XML
+namespace HuaBo.Gis.Desktop
 {
     public class NodeAttr
     {
@@ -15,7 +15,7 @@ namespace HuaBo.Gis.Desktop.XML
         /// <param name="xmlNode"></param>
         /// <param name="attrName"></param>
         /// <returns></returns>
-        public static string GetSetNodeAttrValue(XmlNode xmlNode, string attrName, string value = "")
+        public static string GetOrDefaultNodeAttrValue(XmlNode xmlNode, string attrName, string value = "")
         {
             string result = "";
             if (xmlNode.Attributes[attrName] == null)

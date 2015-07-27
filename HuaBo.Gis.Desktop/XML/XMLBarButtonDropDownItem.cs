@@ -9,17 +9,18 @@ using DevExpress.XtraBars.Ribbon;
 
 namespace HuaBo.Gis.Desktop
 {
-    public class XMLBarButtonItem : XMLBarItem
+    internal class XMLBarButtonDropDownItem : XMLBarButtonItem
     {
-
-        public XMLBarButtonItem(XmlNode xmlNode, BarItemLinkCollection itemlinks, Dictionary<string, CtrlAction> CtrlActions)
+        public XMLBarButtonDropDownItem(XmlNode xmlNode, BarItemLinkCollection itemlinks, Dictionary<string, CtrlAction> CtrlActions)
             : base(xmlNode, itemlinks, CtrlActions)
-        { }
-
+        {
+        }
 
         protected override BarItem CreateBarItem()
         {
             this.BarItem = new BarButtonItem();
+            (this.BarItem as BarButtonItem).ButtonStyle = BarButtonStyle.DropDown;
+
             bool isBeginGroup = this.ItemBeginGroup == "true";
             this.ItemLinks.Add(this.BarItem, isBeginGroup);
             this.BarItem.Name = Guid.NewGuid() + "";
@@ -33,11 +34,18 @@ namespace HuaBo.Gis.Desktop
                 ctrlAction.BarItem = this.BarItem;
                 this.BarItem.Tag = ctrlAction;
                 this.BarItem.ItemClick += (m, n) =>
-                    {
-                        ctrlAction.Run();
-                    };
+                {
+                    ctrlAction.Run();
+                };
             }
 
+            PopupMenu popup = (new XMLPopupMenu(this.XmlNode)).CreatePopupMenu();
+            (this.BarItem as BarButtonItem).DropDownControl = popup;
+
+            foreach (XmlNode dropItemNode in this.XmlNode.ChildNodes)
+            {
+                BarItem barDropItem = XMLBarItem.CreateBarItem(dropItemNode, popup.ItemLinks, this.CtrlActions);
+            }
             return this.BarItem;
         }
     }

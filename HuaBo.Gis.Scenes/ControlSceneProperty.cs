@@ -8,23 +8,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
-using SuperMap.UI;
 using HuaBo.Gis.Interfaces;
 using HuaBo.Gis.Desktop;
 using System.ComponentModel.Composition;
 
-namespace HuaBo.Gis.Plugins
+namespace HuaBo.Gis.Scenes
 {
     [Export(typeof(XtraUserControl))]
-    public partial class ControlLayerManager : ControlBase
+    public partial class ControlSceneProperty : ControlBase
     {
-        private Dictionary<IForm, LayersControl> m_layer3DsTrees = null;
-        public ControlLayerManager()
+        private Dictionary<IForm, ControlProperty> m_scenePropertys = null;
+        public ControlSceneProperty()
         {
             InitializeComponent();
-            m_layer3DsTrees = new Dictionary<IForm, LayersControl>();
+            m_scenePropertys = new Dictionary<IForm, ControlProperty>();
         }
-
 
         protected override void View_DocumentActivated(object sender, DevExpress.XtraBars.Docking2010.Views.DocumentEventArgs e)
         {
@@ -32,13 +30,13 @@ namespace HuaBo.Gis.Plugins
             this.Controls.Clear();
             if (form is IFormScene)
             {
-                if (!m_layer3DsTrees.ContainsKey(form))
+                if (!m_scenePropertys.ContainsKey(form))
                 {
-                    LayersControl layer3dsTree = new LayersControl((form as IFormScene).SceneControl.Scene);
+                    ControlProperty layer3dsTree = new ControlProperty((form as IFormScene).SceneControl);
                     layer3dsTree.Dock = DockStyle.Fill;
-                    m_layer3DsTrees.Add(form, layer3dsTree);
+                    m_scenePropertys.Add(form, layer3dsTree);
                 }
-                this.Controls.Add(m_layer3DsTrees[form]);
+                this.Controls.Add(m_scenePropertys[form]);
             }
         }
 
@@ -46,9 +44,9 @@ namespace HuaBo.Gis.Plugins
         {
             IForm form = e.Document.Form as IForm;
             this.Controls.Clear();
-            if (form != null && m_layer3DsTrees.ContainsKey(form))
+            if (form != null && m_scenePropertys.ContainsKey(form))
             {
-                m_layer3DsTrees.Remove(form);
+                m_scenePropertys.Remove(form);
             }
         }
 
@@ -65,23 +63,15 @@ namespace HuaBo.Gis.Plugins
                 if (form == null) return;
                 if (form is IFormScene)
                 {
-                    if (!m_layer3DsTrees.ContainsKey(form))
+                    if (!m_scenePropertys.ContainsKey(form))
                     {
-                        LayersControl layer3dsTree = new LayersControl((form as IFormScene).SceneControl.Scene);
+                        ControlProperty layer3dsTree = new ControlProperty((form as IFormScene).SceneControl);
                         layer3dsTree.Dock = DockStyle.Fill;
-                        m_layer3DsTrees.Add(form, layer3dsTree);
+                        m_scenePropertys.Add(form, layer3dsTree);
                     }
                 }
-                this.Controls.Add(m_layer3DsTrees[form]);
+                this.Controls.Add(m_scenePropertys[form]);
             }
-        }
-
-        
-
-
-        private void ControlLayerManager_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

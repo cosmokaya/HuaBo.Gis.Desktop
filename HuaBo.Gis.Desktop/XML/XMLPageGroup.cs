@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using DevExpress.XtraBars.Ribbon;
 
-namespace HuaBo.Gis.Desktop.XML
+namespace HuaBo.Gis.Desktop
 {
     public class XMLPageGroup
     {
@@ -40,8 +40,8 @@ namespace HuaBo.Gis.Desktop.XML
             }
             else
             {
-                page.GroupText = NodeAttr.GetSetNodeAttrValue(xmlNode, Text, Guid.NewGuid() + "");
-                page.GroupVisible = NodeAttr.GetSetNodeAttrValue(xmlNode, Visible, "true");
+                page.GroupText = NodeAttr.GetOrDefaultNodeAttrValue(xmlNode, Text, Guid.NewGuid() + "");
+                page.GroupVisible = NodeAttr.GetOrDefaultNodeAttrValue(xmlNode, Visible, "true");
             }
             return page;
         }
@@ -66,5 +66,6 @@ namespace HuaBo.Gis.Desktop.XML
             }
             return pageGroup;
         }
+
     }
 }

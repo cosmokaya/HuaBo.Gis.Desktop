@@ -1,16 +1,16 @@
-﻿namespace HuaBo.Gis.Scenes
+﻿namespace HuaBo.Gis.Desktop
 {
-    partial class ControlSceneSunManage
+    partial class ControlBase
     {
         /// <summary> 
-        /// Required designer variable.
+        /// 必需的设计器变量。
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary> 
-        /// Clean up any resources being used.
+        /// 清理所有正在使用的资源。
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,27 +20,26 @@
             base.Dispose(disposing);
         }
 
-        #region Component Designer generated code
+        #region 组件设计器生成的代码
 
         /// <summary> 
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
+        /// 设计器支持所需的方法 - 不要
+        /// 使用代码编辑器修改此方法的内容。
         /// </summary>
         private void InitializeComponent()
         {
             this.SuspendLayout();
             // 
-            // ControlSceneSunManage
+            // ControlBase
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "ControlSceneSunManage";
-            this.Size = new System.Drawing.Size(387, 510);
+            this.Name = "ControlBase";
+            this.Size = new System.Drawing.Size(256, 278);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
     }
 }

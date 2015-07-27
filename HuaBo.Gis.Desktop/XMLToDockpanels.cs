@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Xml;
 using DevExpress.XtraBars.Docking;
 using DevExpress.XtraEditors;
-using HuaBo.Gis.Desktop.XML;
 using System.Windows.Forms;
 
 namespace HuaBo.Gis.Desktop
@@ -15,25 +14,29 @@ namespace HuaBo.Gis.Desktop
     {
         private static DockManager m_dockManager;
 
-        public static void Parse(DockManager dockManager, XmlDocument doc, Dictionary<string, XtraUserControl> pluginCtrls)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dockManager"></param>
+        /// <param name="xmlNode"></param>
+        /// <param name="pluginCtrls"></param>
+        public static void Parse(DockManager dockManager, XmlNode xmlNode, Dictionary<string, XtraUserControl> pluginCtrls)
         {
             m_dockManager = dockManager;
-            CreatePanels(doc.DocumentElement, pluginCtrls);
+            CreatePanels(xmlNode, pluginCtrls);
         }
-        static void CreatePanels(XmlElement rootElement, Dictionary<string, XtraUserControl> pluginCtrls)
+        static void CreatePanels(XmlNode xmlNode, Dictionary<string, XtraUserControl> pluginCtrls)
         {
-            foreach (XmlNode item in rootElement.ChildNodes)
+            if (XMLManager.GetNodeType(xmlNode) == XMLNodeType.DockPanels)
             {
-                if (XMLManager.GetNodeType(item) == XMLNodeType.DockPanels)
+                //page-pagegroup-item-dropdown
+                foreach (XmlNode panelNode in xmlNode.ChildNodes)
                 {
-                    //page-pagegroup-item-dropdown
-                    foreach (XmlNode panelNode in item.ChildNodes)
-                    {
-                        XMLDockPanel xmlPanel = XMLDockPanel.GetXMLDockPanel(panelNode);
-                        //此时已经添加进去了
-                        DockPanel panel = XMLDockPanel.CreateDockPanel(xmlPanel, m_dockManager, pluginCtrls);
-                    }
+                    XMLDockPanel xmlPanel = XMLDockPanel.CreateXMLDockPanel(panelNode);
+                    //此时已经添加进去了
+                    DockPanel panel = XMLDockPanel.CreateDockPanel(xmlPanel, m_dockManager, pluginCtrls);
                 }
+
             }
         }
 
